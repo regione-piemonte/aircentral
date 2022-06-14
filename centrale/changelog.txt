@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+                          SRQA Centrale - Changelog
+-------------------------------------------------------------------------------
+
+$Id$
+
+3.3.3 - 2019-09-25
+- Improved SQL escape sequences when writing strings to data base
+- Bug fix in ContainerAlarm last status management to avoid null pointer errors
+
+3.3.2 - 2016-11-03
+- Added management of Automatic Calibration Flag from Periferico
+- Allowed negative constant in measure unit conversion
+- Added minimal support to log station's ups events
+- Implemented basic report for station configurations
+- Added read of last not missing datum date in destination DB for match DB Aria
+
+3.3.1 - YYYY-MM-DD
+- Update of third party libraries to conform with CSI Repart repository
+- Effectively removed station proxy when done with it
+- Optimized station proxy to use always same proxy for a given proxy to allow
+  cache usage in browsers.
+- Added compressed versions of UI client resources
+
+3.0.0 - 2009-05-22
+- Initial release 
+

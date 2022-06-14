@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Attivazione connessione PPP
+#
+# Parametri:
+#   $1 tty del modem da usare
+#   $2 numero di telefono da chiamare
+#   $3 indirizzo IP da assegnare al pc remoto
+#   $4 (opzionale) indirizzo IP alternativo da assegnare al pc locale
+
+MODEM_TTY=$1
+PHONE_NUMBER=$2
+REMOTE_IP=$3
+LOCAL_IP=$4
+
+MODEM_TTY_NAME=`basename $MODEM_TTY`
+CHAT_MSG="/tmp/.centrale-chatmsg-$MODEM_TTY_NAME"
+
+rm -f $CHAT_MSG
+if [[ $MODEM_TTY_NAME == ttyV* ]]; then
+   if [[ $MODEM_TTY_NAME == "ttyV0" ]]; then
+      TARGET=10.127.114.116:4444
+#   elif [[ $MODEM_TTY_NAME == "ttyV1" ]]; then
+#      TARGET=host:port
+   fi
+   if [ -n "$TARGET" ]; then
+      echo Activating virtual serial port $MODEM_TTY on $TARGET
+      socat pty,link=$MODEM_TTY,waitslave tcp:$TARGET&
+      sleep 2
+      MODEM_TTY=`readlink -f $MODEM_TTY`
+   else
+      echo No target defined for virtual serial port $MODEM_TTY 1>&2
+      exit 99
+   fi
+fi
+pppd call periferico $MODEM_TTY $LOCAL_IP:$REMOTE_IP connect "/usr/sbin/chat -v -r $CHAT_MSG TIMEOUT 5 '' '\rATZ' OK-ATZ-OK 'AT S7=55 S0=0 L1 V1 X4 &c1 E1 Q0' OK 'AT%TCB' OK ATDT$PHONE_NUMBER REPORT 'NO DIAL TONE' REPORT 'BUSY' REPORT 'NO ANSWER' REPORT 'NO CARRIER' ABORT 'NO DIAL TONE' ABORT '\nBUSY\r' ABORT '\nNO ANSWER\r' ABORT '\nNO CARRIER\r' TIMEOUT 75 CONNECT"
+pppd_result=$?
+if [ $pppd_result -eq 8 ]; then
+  cat $CHAT_MSG 1>&2
+  grep -q 'BUSY' $CHAT_MSG
+  if [ $? -eq 0 ]; then
+    exit 81
+  fi
+  grep -q 'NO ANSWER' $CHAT_MSG
+  if [ $? -eq 0 ]; then
+    exit 82
+  fi
+  grep -q 'NO CARRIER' $CHAT_MSG
+  if [ $? -eq 0 ]; then
+    exit 83
+  fi
+fi
+exit $pppd_result
+

@@ -1,0 +1,289 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<class name="it.csi.centrale.stationreport.Config">
+
+		<map-to xml="config" />
+
+		<field name="idAsString" type="string" direct="false">
+			<bind-xml name="id" node="element" />
+		</field>
+
+		<field name="station" type="it.csi.centrale.stationreport.StationCfg"
+			direct="false">
+			<bind-xml name="station" node="element" />
+		</field>
+
+		<field name="date" type="java.util.Date" direct="false">
+			<bind-xml name="date" node="element" />
+		</field>
+
+		<field name="author" type="string" direct="false">
+			<bind-xml name="author" node="element" />
+		</field>
+
+		<field name="comment" type="string" direct="false">
+			<bind-xml name="comment" node="element" />
+		</field>
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.StationCfg">
+
+		<map-to xml="station" />
+
+		<field name="idAsString" type="string" direct="false">
+			<bind-xml name="id" node="element" />
+		</field>
+
+		<field name="shortName" type="string" direct="false">
+			<bind-xml name="shortName" node="element" />
+		</field>
+
+		<field name="name" type="string" direct="false">
+			<bind-xml name="name" node="element" />
+		</field>
+
+		<field name="location" type="string" direct="false">
+			<bind-xml name="location" node="element" />
+		</field>
+
+		<field name="address" type="string" direct="false">
+			<bind-xml name="address" node="element" />
+		</field>
+
+		<field name="city" type="string" direct="false">
+			<bind-xml name="city" node="element" />
+		</field>
+
+		<field name="province" type="string" direct="false">
+			<bind-xml name="province" node="element" />
+		</field>
+
+		<field name="gpsInstalled" type="boolean" direct="false">
+			<bind-xml name="gpsInstalled" node="element" />
+		</field>
+
+		<field name="userNotes" type="string" direct="false">
+			<bind-xml name="userNotes" node="element" />
+		</field>
+
+		<field name="listAnalyzer" type="it.csi.centrale.stationreport.AnalyzerCfg"
+			collection="arraylist" direct="false">
+			<bind-xml auto-naming="deriveByClass" node="element" />
+		</field>
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.AnalyzerCfg">
+
+		<field name="idAsString" type="string" direct="false">
+			<bind-xml name="id" node="element" />
+		</field>
+
+		<field name="name" type="string" direct="false">
+			<bind-xml name="name" node="element" />
+		</field>
+
+		<field name="brand" type="string" direct="false">
+			<bind-xml name="brand" node="element" />
+		</field>
+
+		<field name="model" type="string" direct="false">
+			<bind-xml name="model" node="element" />
+		</field>
+
+		<field name="description" type="string" direct="false">
+			<bind-xml name="description" node="element" />
+		</field>
+
+		<field name="serialNumber" type="string" direct="false">
+			<bind-xml name="serialNumber" node="element" />
+		</field>
+
+		<field name="userNotes" type="string" direct="false">
+			<bind-xml name="userNotes" node="element" />
+		</field>
+
+		<field name="minVoltage" type="double" direct="false">
+			<bind-xml name="minVoltage" node="element" />
+		</field>
+
+		<field name="maxVoltage" type="double" direct="false">
+			<bind-xml name="maxVoltage" node="element" />
+		</field>
+
+		<field name="minRangeExtension" type="boolean" direct="false">
+			<bind-xml name="minRangeExtension" node="element" />
+		</field>
+
+		<field name="maxRangeExtension" type="boolean" direct="false">
+			<bind-xml name="maxRangeExtension" node="element" />
+		</field>
+
+		<field name="differentialModeNeeded" type="boolean" direct="false">
+			<bind-xml name="differentialModeNeeded" node="element" />
+		</field>
+
+		<field name="hostName" type="string" direct="false">
+			<bind-xml name="hostName" node="element" />
+		</field>
+
+		<field name="ipPort" type="integer" direct="false">
+			<bind-xml name="ipPort" node="element" />
+		</field>
+
+		<field name="driverParams" type="string" direct="false">
+			<bind-xml name="driverParams" node="element" />
+		</field>
+
+		<field name="statusAsString" type="string" direct="false">
+			<bind-xml name="status" node="element" />
+		</field>
+
+		<field name="deletionDate" type="java.util.Date" direct="false">
+			<bind-xml name="deletionDate" node="element" />
+		</field>
+
+		<field name="listElement" type="it.csi.centrale.stationreport.ElementCfg"
+			collection="arraylist" direct="false">
+			<bind-xml auto-naming="deriveByClass" node="element" />
+		</field>
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.DataPortAnalyzerCfg"
+		extends="it.csi.centrale.stationreport.AnalyzerCfg">
+
+		<map-to xml="dataPortAnalyzer" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.AvgAnalyzerCfg"
+		extends="it.csi.centrale.stationreport.AnalyzerCfg">
+
+		<map-to xml="avgAnalyzer" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.SampleAnalyzerCfg"
+		extends="it.csi.centrale.stationreport.AnalyzerCfg">
+
+		<map-to xml="sampleAnalyzer" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.ElementCfg">
+
+		<field name="parameterId" type="string" direct="false">
+			<bind-xml name="parameterId" node="element" />
+		</field>
+
+		<field name="enabled" type="boolean" direct="false">
+			<bind-xml name="enabled" node="element" />
+		</field>
+
+		<field name="analyzerMeasureUnitName" type="string" direct="false">
+			<bind-xml name="analyzerMeasureUnitName" node="element" />
+		</field>
+
+		<field name="rangeLow" type="double" direct="false">
+			<bind-xml name="rangeLow" node="element" />
+		</field>
+
+		<field name="rangeHigh" type="double" direct="false">
+			<bind-xml name="rangeHigh" node="element" />
+		</field>
+
+		<field name="correctionCoefficient" type="double" direct="false">
+			<bind-xml name="correctionCoefficient" node="element" />
+		</field>
+
+		<field name="correctionOffset" type="double" direct="false">
+			<bind-xml name="correctionOffset" node="element" />
+		</field>
+
+		<field name="acqPeriod" type="integer" direct="false">
+			<bind-xml name="acqPeriod" node="element" />
+		</field>
+
+		<field name="acqDuration" type="integer" direct="false">
+			<bind-xml name="acqDuration" node="element" />
+		</field>
+
+		<field name="acqDelay" type="integer" direct="false">
+			<bind-xml name="acqDelay" node="element" />
+		</field>
+
+		<field name="measureUnitName" type="string" direct="false">
+			<bind-xml name="measureUnitName" node="element" />
+		</field>
+
+		<field name="numDec" type="integer" direct="false">
+			<bind-xml name="numDecimals" node="element" />
+		</field>
+
+		<field name="linearizationCoefficient" type="double" direct="false">
+			<bind-xml name="linearizationCoefficient" node="element" />
+		</field>
+
+		<field name="linearizationOffset" type="double" direct="false">
+			<bind-xml name="linearizationOffset" node="element" />
+		</field>
+
+		<field name="minValue" type="double" direct="false">
+			<bind-xml name="minValue" node="element" />
+		</field>
+
+		<field name="maxValue" type="double" direct="false">
+			<bind-xml name="maxValue" node="element" />
+		</field>
+
+		<field name="discardDataNotValidForAnalyzer" type="boolean"
+			direct="false">
+			<bind-xml name="discardDataNotValidForAnalyzer" node="element" />
+		</field>
+
+		<field name="avgPeriods" type="integer" collection="arraylist"
+			direct="false">
+			<bind-xml name="avgPeriod" node="element" />
+		</field>
+
+		<field name="avgPeriod" type="integer" direct="false">
+			<bind-xml name="acqPeriodForAvg" node="element" />
+		</field>
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.DataPortElementCfg"
+		extends="it.csi.centrale.stationreport.ElementCfg">
+
+		<map-to xml="dataPortElement" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.DataPortAvgElementCfg"
+		extends="it.csi.centrale.stationreport.ElementCfg">
+
+		<map-to xml="dataPortAvgElement" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.SampleElementCfg"
+		extends="it.csi.centrale.stationreport.ElementCfg">
+
+		<map-to xml="sampleElement" />
+
+	</class>
+
+	<class name="it.csi.centrale.stationreport.AvgElementCfg"
+		extends="it.csi.centrale.stationreport.ElementCfg">
+
+		<map-to xml="avgElement" />
+
+	</class>
+
+</mapping>

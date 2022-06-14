@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Verifica connessione PPP
+#
+# Parametri:
+#   $1 tty del modem da usare
+
+MODEM_TTY=$1
+
+ps axu | grep pppd | grep $MODEM_TTY

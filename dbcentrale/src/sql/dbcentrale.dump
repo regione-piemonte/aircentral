@@ -1,0 +1,1228 @@
+--
+--Copyright Regione Piemonte - 2022
+--SPDX-License-Identifier: EUPL-1.2-or-later
+--
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: dbcentrale; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE dbcentrale IS 'Database del centrale';
+
+
+--
+-- Name: centrale; Type: SCHEMA; Schema: -; Owner: centrale
+--
+
+CREATE SCHEMA centrale;
+
+
+ALTER SCHEMA centrale OWNER TO centrale;
+
+--
+-- Name: SCHEMA centrale; Type: COMMENT; Schema: -; Owner: centrale
+--
+
+COMMENT ON SCHEMA centrale IS 'referente: I. Vespa';
+
+
+SET search_path = centrale, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: alarm_name; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE alarm_name (
+    alarm_id character varying(10) NOT NULL,
+    alarm_name character varying(128) NOT NULL,
+    type character varying(128) NOT NULL,
+    data_quality_relevant numeric(1,0) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT alarm_name_data_quality_relevant_check CHECK ((data_quality_relevant = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.alarm_name OWNER TO centrale;
+
+--
+-- Name: analyzer_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE analyzer_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.analyzer_serial OWNER TO centrale;
+
+--
+-- Name: analyzer; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE analyzer (
+    analyzer_id integer DEFAULT nextval('analyzer_serial'::regclass) NOT NULL,
+    station_id integer NOT NULL,
+    uuid character varying(36) NOT NULL,
+    name character varying(128) NOT NULL,
+    brand character varying(128),
+    model character varying(128),
+    description character varying(128),
+    serial_number character varying(128),
+    status character varying(128) NOT NULL,
+    type character varying(128),
+    notes character varying(1024),
+    delete_date timestamp without time zone,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.analyzer OWNER TO centrale;
+
+--
+-- Name: analyzer_alarm_history; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE analyzer_alarm_history (
+    analyzer_id integer NOT NULL,
+    analyzer_alarm_type character varying(16) NOT NULL,
+    status numeric(1,0) NOT NULL,
+    timestamp_analyzer_alarm timestamp without time zone NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT analyzer_alarm_history_status_check CHECK ((status = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.analyzer_alarm_history OWNER TO centrale;
+
+--
+-- Name: analyzer_alarm_status; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE analyzer_alarm_status (
+    analyzer_id integer NOT NULL,
+    analyzer_alarm_type character varying(16) NOT NULL,
+    status numeric(1,0),
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT analyzer_alarm_status_status_check CHECK ((status = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.analyzer_alarm_status OWNER TO centrale;
+
+--
+-- Name: analyzer_alarm_type_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE analyzer_alarm_type_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.analyzer_alarm_type_serial OWNER TO centrale;
+
+--
+-- Name: analyzer_alarm_type; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE analyzer_alarm_type (
+    analyzer_alarm_type_id integer DEFAULT nextval('analyzer_alarm_type_serial'::regclass) NOT NULL,
+    analyzer_alarm_type character varying(16) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.analyzer_alarm_type OWNER TO centrale;
+
+--
+-- Name: avg_period; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE avg_period (
+    avg_period_id integer NOT NULL,
+    default_avg numeric(1,0),
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT avg_period_default_avg_check CHECK ((default_avg = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.avg_period OWNER TO centrale;
+
+--
+-- Name: config_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE config_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.config_serial OWNER TO centrale;
+
+--
+-- Name: config; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE config (
+    config_id integer DEFAULT nextval('config_serial'::regclass) NOT NULL,
+    max_num_phone_lines integer NOT NULL,
+    total_num_modem integer NOT NULL,
+    num_modem_shared_lines integer NOT NULL,
+    reserved_line numeric(1,0) NOT NULL,
+    synthetic_icon numeric(1,0) DEFAULT 0,
+    polling_office_time integer NOT NULL,
+    polling_extra_office integer,
+    use_polling_extra numeric(1,0) NOT NULL,
+    close_sat numeric(1,0),
+    close_sun numeric(1,0),
+    open_at integer,
+    close_at integer,
+    download_type_sample_data integer NOT NULL,
+    download_alarm_data numeric(1,0) NOT NULL,
+    min_temperature_threshold integer,
+    max_temperature_threshold integer,
+    alarm_max_temperature_threshold integer,
+    cop_ip character varying(15) NOT NULL,
+    router_timeout integer NOT NULL,
+    router_try_timeout integer NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    data_write_to_disk_period integer,
+    manual_operations_auto_reset_period integer,
+    max_days_of_data integer,
+    max_days_of_aggregate_data integer,
+    disk_full_warning_threshold_percent integer,
+    disk_full_alarm_threshold_percent integer,
+    reference_temperature_k double precision,
+    reference_pressure_kpa double precision,
+    door_alarm_id character varying(15),
+    cop_service_port integer,
+    maps_site_url_formatter character varying(100),
+    common_config_update_date timestamp without time zone,
+    cop_router_ip character varying(15),
+    avg_temp integer NOT NULL,
+    temp_id character varying(15) NOT NULL,
+    name character varying(30),
+    generic_map_name character varying(150),
+    time_host_router character varying(200),
+    time_host_modem character varying(200),
+    time_host_lan character varying(200),
+    time_host_proxy character varying(200),
+    num_reserved_lines_ui integer,
+    proxy_host character varying(100),
+    proxy_port integer,
+    proxy_exclusion character varying(200),
+    CONSTRAINT cop_close_sat_check CHECK ((close_sat = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT cop_close_sun_check CHECK ((close_sun = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT cop_download_alarm_data_check CHECK ((download_alarm_data = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT cop_reserved_line_check CHECK ((reserved_line = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT cop_synthetic_icon_check CHECK ((synthetic_icon = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT cop_use_polling_extra_check CHECK ((use_polling_extra = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.config OWNER TO centrale;
+
+--
+-- Name: cop_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE cop_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.cop_serial OWNER TO centrale;
+
+--
+-- Name: element_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE element_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.element_serial OWNER TO centrale;
+
+--
+-- Name: element; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE element (
+    element_id integer DEFAULT nextval('element_serial'::regclass) NOT NULL,
+    analyzer_id integer NOT NULL,
+    param_id character varying(16) NOT NULL,
+    enabled numeric(1,0),
+    delete_date timestamp without time zone,
+    type character varying(32) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT element_enabled_check CHECK ((enabled = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.element OWNER TO centrale;
+
+--
+-- Name: element_avg_period; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE element_avg_period (
+    element_id integer NOT NULL,
+    avg_period_id integer NOT NULL,
+    delete_date timestamp without time zone,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    all_data_downloaded numeric(1,0) DEFAULT 0 NOT NULL,
+    last_date_on_matched_db timestamp without time zone,
+    CONSTRAINT element_avg_period_all_data_downloaded_check CHECK ((all_data_downloaded = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.element_avg_period OWNER TO centrale;
+
+--
+-- Name: filesystem_status_history; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE filesystem_status_history (
+    station_id integer NOT NULL,
+    timestamp_informatic_status timestamp without time zone NOT NULL,
+    filesystem_name character varying(16) NOT NULL,
+    status integer,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.filesystem_status_history OWNER TO centrale;
+
+--
+-- Name: gps_data; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE gps_data (
+    station_id integer NOT NULL,
+    timestamp_gps_data timestamp without time zone NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    altitude double precision,
+    notes character varying(128) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.gps_data OWNER TO centrale;
+
+--
+-- Name: informatic_status_history; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE informatic_status_history (
+    station_id integer NOT NULL,
+    timestamp_informatic_status timestamp without time zone NOT NULL,
+    is_ok numeric(1,0) NOT NULL,
+    board_manager_init_status numeric(1,0),
+    cfg_boards_number integer,
+    init_boards_number integer,
+    failed_boards_binding_number integer,
+    dpa_ok numeric(1,0),
+    drvcfg_ok numeric(1,0),
+    enabled_dpa_number integer,
+    init_dpa_drivers_number integer,
+    failed_dpa_threads_number integer,
+    load_cfg_status character varying(128),
+    save_cfg_status numeric(1,0),
+    cfg_activation_status numeric(1,0),
+    total_thread_failures integer NOT NULL,
+    current_thread_failures integer NOT NULL,
+    data_write_error_count integer NOT NULL,
+    warning_level integer NOT NULL,
+    alarm_level integer NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    smart_status character varying(128),
+    raid_status character varying(128),
+    cmm_cfg_from_cop character varying(128),
+    date_in_future numeric(1,0),
+    CONSTRAINT informatic_status_history_board_manager_init_status_check CHECK ((board_manager_init_status = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_cfg_activation_status_check CHECK ((cfg_activation_status = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_date_in_future_check CHECK ((date_in_future = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_dpa_ok_check CHECK ((dpa_ok = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_drvcfg_ok_check CHECK ((drvcfg_ok = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_is_ok_check CHECK ((is_ok = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT informatic_status_history_save_cfg_status_check CHECK ((save_cfg_status = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.informatic_status_history OWNER TO centrale;
+
+--
+-- Name: match_dbaria; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE match_dbaria (
+    id_rete_monit character varying(2) NOT NULL,
+    codice_istat_comune character varying(6) NOT NULL,
+    progr_punto_com integer NOT NULL,
+    id_parametro character varying(8) NOT NULL,
+    element_id integer NOT NULL,
+    avg_period_id integer NOT NULL,
+    component character varying(128) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.match_dbaria OWNER TO centrale;
+
+--
+-- Name: match_dbaria_station; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE match_dbaria_station (
+    id_rete_monit character varying(2) NOT NULL,
+    codice_istat_comune character varying(6) NOT NULL,
+    progr_punto_com integer NOT NULL,
+    station_id integer NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.match_dbaria_station OWNER TO centrale;
+
+--
+-- Name: mean_data; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE mean_data (
+    element_id integer NOT NULL,
+    avg_period_id integer NOT NULL,
+    timestamp_mean_data timestamp without time zone NOT NULL,
+    mean_data_value double precision,
+    flag numeric(1,0) NOT NULL,
+    multiple_flag integer NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT mean_data_flag_check CHECK ((flag = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.mean_data OWNER TO centrale;
+
+--
+-- Name: mean_wind_data; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE mean_wind_data (
+    element_id integer NOT NULL,
+    avg_period_id integer NOT NULL,
+    timestamp_mean_wind_data timestamp without time zone NOT NULL,
+    vectorial_speed double precision,
+    vectorial_direction double precision,
+    standard_deviation double precision,
+    scalar_speed double precision,
+    gust_speed double precision,
+    gust_direction double precision,
+    calms_number_percent double precision,
+    calm numeric(1,0),
+    flag numeric(1,0) NOT NULL,
+    multiple_flag integer NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT mean_wind_data_calm_check CHECK ((calm = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT mean_wind_data_flag_check CHECK ((flag = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.mean_wind_data OWNER TO centrale;
+
+--
+-- Name: measure_unit; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE measure_unit (
+    measure_name character varying(16) NOT NULL,
+    physical_dimension character varying(128) NOT NULL,
+    description character varying(128),
+    allowed_for_analyzer numeric(1,0),
+    allowed_for_acquisition numeric(1,0),
+    conversion_multiplyer double precision,
+    conversion_addendum double precision,
+    conversion_formula character varying(6),
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT measure_unit_allowed_for_acquisition_check CHECK ((allowed_for_acquisition = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT measure_unit_allowed_for_analyzer_check CHECK ((allowed_for_analyzer = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.measure_unit OWNER TO centrale;
+
+--
+-- Name: modem; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE modem (
+    device_id character varying(16) NOT NULL,
+    shared_line numeric(1,0) NOT NULL,
+    phone_prefix character varying(16),
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT modem_shared_line_check CHECK ((shared_line = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.modem OWNER TO centrale;
+
+--
+-- Name: parameter; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE parameter (
+    param_id character varying(16) NOT NULL,
+    physical_dimension character varying(128) NOT NULL,
+    name character varying(128),
+    type character varying(128),
+    molecular_weight double precision,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.parameter OWNER TO centrale;
+
+--
+-- Name: physical_dimension; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE physical_dimension (
+    physical_dimension character varying(128) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.physical_dimension OWNER TO centrale;
+
+--
+-- Name: sample_data; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE sample_data (
+    element_id integer NOT NULL,
+    timestamp_sample_data timestamp without time zone NOT NULL,
+    sample_data_value double precision,
+    flag numeric(1,0) NOT NULL,
+    multiple_flag character varying(8) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    CONSTRAINT sample_data_flag_check CHECK ((flag = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.sample_data OWNER TO centrale;
+
+--
+-- Name: scalar_element; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE scalar_element (
+    element_id integer NOT NULL,
+    measure_name character varying(16) NOT NULL,
+    min_val double precision NOT NULL,
+    max_val double precision NOT NULL,
+    num_dec integer NOT NULL
+);
+
+
+ALTER TABLE centrale.scalar_element OWNER TO centrale;
+
+--
+-- Name: station_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE station_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.station_serial OWNER TO centrale;
+
+--
+-- Name: station; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE station (
+    station_id integer DEFAULT nextval('station_serial'::regclass) NOT NULL,
+    virtual_cop_id integer NOT NULL,
+    uuid character varying(36),
+    shortname character varying(16) NOT NULL,
+    name character varying(128),
+    province character varying(128),
+    city character varying(128),
+    address character varying(128),
+    location character varying(128),
+    notes character varying(1024),
+    map_x integer,
+    map_y integer,
+    enabled numeric(1,0) DEFAULT 1 NOT NULL,
+    ip_address character varying(80) NOT NULL,
+    ip_port integer,
+    tel_number character varying(15),
+    router_ip_address character varying(15),
+    use_modem numeric(1,0) NOT NULL,
+    force_polling_time integer,
+    use_gps numeric(1,0) DEFAULT 0 NOT NULL,
+    config_uuid character varying(36),
+    config_author character varying(128),
+    config_notes character varying(1024),
+    config_date timestamp without time zone,
+    delete_date timestamp without time zone,
+    min_timestamp_for_polling timestamp without time zone,
+    sample_data_download_enabled numeric(1,0) DEFAULT 0 NOT NULL,
+    last_date_on_matched_db timestamp without time zone,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL,
+    common_config_date timestamp without time zone,
+    lan numeric(1,0) DEFAULT 0 NOT NULL,
+    proxy numeric(1,0) DEFAULT 0 NOT NULL,
+    send_common_config numeric(1,0) DEFAULT 1 NOT NULL,
+    common_config_problem character varying(50),
+    last_common_config_update_status numeric,
+    generic_map_x integer,
+    generic_map_y integer,
+    CONSTRAINT station_enabled_check CHECK ((enabled = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_lan_check CHECK ((lan = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_last_common_config_update_status_check CHECK ((last_common_config_update_status = ANY (ARRAY[NULL::numeric, (0)::numeric, (1)::numeric, (2)::numeric, (3)::numeric]))),
+    CONSTRAINT station_proxy_check CHECK ((proxy = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_sample_data_download_enabled_check CHECK ((sample_data_download_enabled = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_send_common_config_check CHECK ((send_common_config = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_use_gps_check CHECK ((use_gps = ANY (ARRAY[(1)::numeric, (0)::numeric]))),
+    CONSTRAINT station_use_modem_check CHECK ((use_modem = ANY (ARRAY[(1)::numeric, (0)::numeric])))
+);
+
+
+ALTER TABLE centrale.station OWNER TO centrale;
+
+--
+-- Name: station_alarm_serial; Type: SEQUENCE; Schema: centrale; Owner: centrale
+--
+
+CREATE SEQUENCE station_alarm_serial
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE centrale.station_alarm_serial OWNER TO centrale;
+
+--
+-- Name: station_alarm; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE station_alarm (
+    station_alarm_id integer DEFAULT nextval('station_alarm_serial'::regclass) NOT NULL,
+    uuid character varying(36) NOT NULL,
+    station_id integer NOT NULL,
+    alarm_id character varying(10) NOT NULL,
+    notes character varying(128),
+    delete_date timestamp without time zone,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.station_alarm OWNER TO centrale;
+
+--
+-- Name: station_alarm_history; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE station_alarm_history (
+    station_alarm_id integer NOT NULL,
+    status character varying(10) NOT NULL,
+    timestamp_station_alarm timestamp without time zone NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.station_alarm_history OWNER TO centrale;
+
+--
+-- Name: station_alarm_status; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE station_alarm_status (
+    station_alarm_id integer NOT NULL,
+    status character varying(10) NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.station_alarm_status OWNER TO centrale;
+
+--
+-- Name: station_configuration; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE station_configuration (
+    station_id integer NOT NULL,
+    last_modified_time bigint NOT NULL,
+    configuration bytea NOT NULL,
+    update_date timestamp without time zone DEFAULT ('now'::text)::timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE centrale.station_configuration OWNER TO centrale;
+
+--
+-- Name: virtual_cop; Type: TABLE; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE TABLE virtual_cop (
+    virtual_cop_id integer DEFAULT nextval('cop_serial'::regclass) NOT NULL,
+    name character varying(100) NOT NULL,
+    config_id integer NOT NULL,
+    map_name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE centrale.virtual_cop OWNER TO centrale;
+
+--
+-- Name: alarm_name_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY alarm_name
+    ADD CONSTRAINT alarm_name_pkey PRIMARY KEY (alarm_id);
+
+
+--
+-- Name: analyzer_alarm_history_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer_alarm_history
+    ADD CONSTRAINT analyzer_alarm_history_pkey PRIMARY KEY (analyzer_id, analyzer_alarm_type, timestamp_analyzer_alarm);
+
+
+--
+-- Name: analyzer_alarm_status_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer_alarm_status
+    ADD CONSTRAINT analyzer_alarm_status_pkey PRIMARY KEY (analyzer_id, analyzer_alarm_type);
+
+
+--
+-- Name: analyzer_alarm_type_analyzer_alarm_type_key; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer_alarm_type
+    ADD CONSTRAINT analyzer_alarm_type_analyzer_alarm_type_key UNIQUE (analyzer_alarm_type);
+
+
+--
+-- Name: analyzer_alarm_type_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer_alarm_type
+    ADD CONSTRAINT analyzer_alarm_type_pkey PRIMARY KEY (analyzer_alarm_type_id);
+
+
+--
+-- Name: analyzer_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer
+    ADD CONSTRAINT analyzer_pkey PRIMARY KEY (analyzer_id);
+
+
+--
+-- Name: analyzer_station_id_uuid_unique; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY analyzer
+    ADD CONSTRAINT analyzer_station_id_uuid_unique UNIQUE (station_id, uuid);
+
+
+--
+-- Name: avg_period_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY avg_period
+    ADD CONSTRAINT avg_period_pkey PRIMARY KEY (avg_period_id);
+
+
+--
+-- Name: cop_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY config
+    ADD CONSTRAINT cop_pkey PRIMARY KEY (config_id);
+
+
+--
+-- Name: element_avg_period_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY element_avg_period
+    ADD CONSTRAINT element_avg_period_pkey PRIMARY KEY (element_id, avg_period_id);
+
+
+--
+-- Name: element_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY element
+    ADD CONSTRAINT element_pkey PRIMARY KEY (element_id);
+
+
+--
+-- Name: filesystem_status_history_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY filesystem_status_history
+    ADD CONSTRAINT filesystem_status_history_pkey PRIMARY KEY (station_id, timestamp_informatic_status, filesystem_name);
+
+
+--
+-- Name: gps_data_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY gps_data
+    ADD CONSTRAINT gps_data_pkey PRIMARY KEY (station_id, timestamp_gps_data);
+
+
+--
+-- Name: informatic_status_history_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY informatic_status_history
+    ADD CONSTRAINT informatic_status_history_pkey PRIMARY KEY (station_id, timestamp_informatic_status);
+
+
+--
+-- Name: match_dbaria_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY match_dbaria
+    ADD CONSTRAINT match_dbaria_pkey PRIMARY KEY (id_rete_monit, codice_istat_comune, progr_punto_com, id_parametro, element_id, avg_period_id, component);
+
+
+--
+-- Name: match_dbaria_station_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY match_dbaria_station
+    ADD CONSTRAINT match_dbaria_station_pkey PRIMARY KEY (id_rete_monit, codice_istat_comune, progr_punto_com, station_id);
+
+
+--
+-- Name: mean_data_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY mean_data
+    ADD CONSTRAINT mean_data_pkey PRIMARY KEY (element_id, avg_period_id, timestamp_mean_data);
+
+
+--
+-- Name: mean_wind_data_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY mean_wind_data
+    ADD CONSTRAINT mean_wind_data_pkey PRIMARY KEY (element_id, avg_period_id, timestamp_mean_wind_data);
+
+
+--
+-- Name: measure_unit_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY measure_unit
+    ADD CONSTRAINT measure_unit_pkey PRIMARY KEY (measure_name);
+
+
+--
+-- Name: modem_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY modem
+    ADD CONSTRAINT modem_pkey PRIMARY KEY (device_id);
+
+
+--
+-- Name: parameter_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY parameter
+    ADD CONSTRAINT parameter_pkey PRIMARY KEY (param_id);
+
+
+--
+-- Name: physical_dimension_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY physical_dimension
+    ADD CONSTRAINT physical_dimension_pkey PRIMARY KEY (physical_dimension);
+
+
+--
+-- Name: sample_data_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY sample_data
+    ADD CONSTRAINT sample_data_pkey PRIMARY KEY (element_id, timestamp_sample_data);
+
+
+--
+-- Name: scalar_element_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY scalar_element
+    ADD CONSTRAINT scalar_element_pkey PRIMARY KEY (element_id);
+
+
+--
+-- Name: station_alarm_history_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station_alarm_history
+    ADD CONSTRAINT station_alarm_history_pkey PRIMARY KEY (station_alarm_id, timestamp_station_alarm);
+
+
+--
+-- Name: station_alarm_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station_alarm
+    ADD CONSTRAINT station_alarm_pkey PRIMARY KEY (station_alarm_id);
+
+
+--
+-- Name: station_alarm_station_id_uuid_unique; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station_alarm
+    ADD CONSTRAINT station_alarm_station_id_uuid_unique UNIQUE (uuid, station_id);
+
+
+--
+-- Name: station_alarm_status_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station_alarm_status
+    ADD CONSTRAINT station_alarm_status_pkey PRIMARY KEY (station_alarm_id);
+
+
+--
+-- Name: station_configuration_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station_configuration
+    ADD CONSTRAINT station_configuration_pkey PRIMARY KEY (station_id, last_modified_time);
+
+
+--
+-- Name: station_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station
+    ADD CONSTRAINT station_pkey PRIMARY KEY (station_id);
+
+
+--
+-- Name: station_virtual_cop_uuid_unique; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY station
+    ADD CONSTRAINT station_virtual_cop_uuid_unique UNIQUE (virtual_cop_id, uuid);
+
+
+--
+-- Name: virtual_cop_pkey; Type: CONSTRAINT; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+ALTER TABLE ONLY virtual_cop
+    ADD CONSTRAINT virtual_cop_pkey PRIMARY KEY (virtual_cop_id);
+
+
+--
+-- Name: fki_station_vrtual_cop_id_fkey; Type: INDEX; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE INDEX fki_station_vrtual_cop_id_fkey ON station USING btree (virtual_cop_id);
+
+
+--
+-- Name: fki_virtual_cop_config_id_fkey; Type: INDEX; Schema: centrale; Owner: centrale; Tablespace: 
+--
+
+CREATE INDEX fki_virtual_cop_config_id_fkey ON virtual_cop USING btree (config_id);
+
+
+--
+-- Name: analyzer_alarm_history_analyzer_alarm_type_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY analyzer_alarm_history
+    ADD CONSTRAINT analyzer_alarm_history_analyzer_alarm_type_fkey FOREIGN KEY (analyzer_alarm_type) REFERENCES analyzer_alarm_type(analyzer_alarm_type);
+
+
+--
+-- Name: analyzer_alarm_history_analyzer_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY analyzer_alarm_history
+    ADD CONSTRAINT analyzer_alarm_history_analyzer_id_fkey FOREIGN KEY (analyzer_id) REFERENCES analyzer(analyzer_id) ON DELETE CASCADE;
+
+
+--
+-- Name: analyzer_alarm_status_analyzer_alarm_type_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY analyzer_alarm_status
+    ADD CONSTRAINT analyzer_alarm_status_analyzer_alarm_type_fkey FOREIGN KEY (analyzer_alarm_type) REFERENCES analyzer_alarm_type(analyzer_alarm_type);
+
+
+--
+-- Name: analyzer_alarm_status_analyzer_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY analyzer_alarm_status
+    ADD CONSTRAINT analyzer_alarm_status_analyzer_id_fkey FOREIGN KEY (analyzer_id) REFERENCES analyzer(analyzer_id) ON DELETE CASCADE;
+
+
+--
+-- Name: analyzer_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY analyzer
+    ADD CONSTRAINT analyzer_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id) ON DELETE CASCADE;
+
+
+--
+-- Name: element_analyzer_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY element
+    ADD CONSTRAINT element_analyzer_id_fkey FOREIGN KEY (analyzer_id) REFERENCES analyzer(analyzer_id) ON DELETE CASCADE;
+
+
+--
+-- Name: element_avg_period_avg_period_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY element_avg_period
+    ADD CONSTRAINT element_avg_period_avg_period_id_fkey FOREIGN KEY (avg_period_id) REFERENCES avg_period(avg_period_id);
+
+
+--
+-- Name: element_avg_period_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY element_avg_period
+    ADD CONSTRAINT element_avg_period_element_id_fkey FOREIGN KEY (element_id) REFERENCES element(element_id) ON DELETE CASCADE;
+
+
+--
+-- Name: element_param_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY element
+    ADD CONSTRAINT element_param_id_fkey FOREIGN KEY (param_id) REFERENCES parameter(param_id);
+
+
+--
+-- Name: filesystem_status_history_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY filesystem_status_history
+    ADD CONSTRAINT filesystem_status_history_station_id_fkey FOREIGN KEY (station_id, timestamp_informatic_status) REFERENCES informatic_status_history(station_id, timestamp_informatic_status) ON DELETE CASCADE;
+
+
+--
+-- Name: gps_data_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY gps_data
+    ADD CONSTRAINT gps_data_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id) ON DELETE CASCADE;
+
+
+--
+-- Name: informatic_status_history_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY informatic_status_history
+    ADD CONSTRAINT informatic_status_history_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id) ON DELETE CASCADE;
+
+
+--
+-- Name: match_dbaria_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY match_dbaria
+    ADD CONSTRAINT match_dbaria_element_id_fkey FOREIGN KEY (element_id, avg_period_id) REFERENCES element_avg_period(element_id, avg_period_id) ON DELETE CASCADE;
+
+
+--
+-- Name: match_dbaria_station_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY match_dbaria_station
+    ADD CONSTRAINT match_dbaria_station_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id) ON DELETE CASCADE;
+
+
+--
+-- Name: mean_data_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY mean_data
+    ADD CONSTRAINT mean_data_element_id_fkey FOREIGN KEY (element_id, avg_period_id) REFERENCES element_avg_period(element_id, avg_period_id) ON DELETE CASCADE;
+
+
+--
+-- Name: mean_wind_data_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY mean_wind_data
+    ADD CONSTRAINT mean_wind_data_element_id_fkey FOREIGN KEY (element_id, avg_period_id) REFERENCES element_avg_period(element_id, avg_period_id) ON DELETE CASCADE;
+
+
+--
+-- Name: measure_unit_physical_dimension_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY measure_unit
+    ADD CONSTRAINT measure_unit_physical_dimension_fkey FOREIGN KEY (physical_dimension) REFERENCES physical_dimension(physical_dimension);
+
+
+--
+-- Name: parameter_physical_dimension_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY parameter
+    ADD CONSTRAINT parameter_physical_dimension_fkey FOREIGN KEY (physical_dimension) REFERENCES physical_dimension(physical_dimension);
+
+
+--
+-- Name: sample_data_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY sample_data
+    ADD CONSTRAINT sample_data_element_id_fkey FOREIGN KEY (element_id) REFERENCES element(element_id) ON DELETE CASCADE;
+
+
+--
+-- Name: scalar_element_element_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY scalar_element
+    ADD CONSTRAINT scalar_element_element_id_fkey FOREIGN KEY (element_id) REFERENCES element(element_id) ON DELETE CASCADE;
+
+
+--
+-- Name: scalar_element_measure_name_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY scalar_element
+    ADD CONSTRAINT scalar_element_measure_name_fkey FOREIGN KEY (measure_name) REFERENCES measure_unit(measure_name);
+
+
+--
+-- Name: station_alarm_alarm_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station_alarm
+    ADD CONSTRAINT station_alarm_alarm_id_fkey FOREIGN KEY (alarm_id) REFERENCES alarm_name(alarm_id);
+
+
+--
+-- Name: station_alarm_history_station_alarm_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station_alarm_history
+    ADD CONSTRAINT station_alarm_history_station_alarm_id_fkey FOREIGN KEY (station_alarm_id) REFERENCES station_alarm(station_alarm_id);
+
+
+--
+-- Name: station_alarm_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station_alarm
+    ADD CONSTRAINT station_alarm_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id);
+
+
+--
+-- Name: station_alarm_status_station_alarm_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station_alarm_status
+    ADD CONSTRAINT station_alarm_status_station_alarm_id_fkey FOREIGN KEY (station_alarm_id) REFERENCES station_alarm(station_alarm_id);
+
+
+--
+-- Name: station_configuration_station_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station_configuration
+    ADD CONSTRAINT station_configuration_station_id_fkey FOREIGN KEY (station_id) REFERENCES station(station_id);
+
+
+--
+-- Name: station_vrtual_cop_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY station
+    ADD CONSTRAINT station_vrtual_cop_id_fkey FOREIGN KEY (virtual_cop_id) REFERENCES virtual_cop(virtual_cop_id);
+
+
+--
+-- Name: virtual_cop_config_id_fkey; Type: FK CONSTRAINT; Schema: centrale; Owner: centrale
+--
+
+ALTER TABLE ONLY virtual_cop
+    ADD CONSTRAINT virtual_cop_config_id_fkey FOREIGN KEY (config_id) REFERENCES config(config_id);
+
+
+--
+-- Name: centrale; Type: ACL; Schema: -; Owner: centrale
+--
+
+REVOKE ALL ON SCHEMA centrale FROM PUBLIC;
+REVOKE ALL ON SCHEMA centrale FROM centrale;
+GRANT ALL ON SCHEMA centrale TO centrale;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,21 @@
+<dbconfig>
+	<database>
+		<description>Database Centrale</description> 
+		<dbName>PGDEV01</dbName>
+		<address>tst-domdb69.csi.it</address>
+		<port>5432</port>
+		<user>centrale</user>
+		<password>uGeol2eh</password>
+		<engine>postgres</engine>
+	</database>
+	<database>
+		<description>Database Autenticazione</description> 
+		<dbName>dbauth2-test</dbName>
+		<address>ariatest.csi.it</address>
+		<port>5432</port>
+		<user>dbauth_user</user>
+		<password>user_dbauth</password>
+		<engine>postgres</engine>
+		<dbtype>0</dbtype>
+	</database>
+</dbconfig>

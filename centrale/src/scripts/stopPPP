@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Chiusura connessione PPP
+#
+# Parametri:
+#   $1 tty del modem da usare
+
+MODEM_TTY=$1
+
+kill -term `ps axu | grep pppd | grep $MODEM_TTY | awk '{ print $2; }'` \
+&& sleep 2

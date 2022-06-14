@@ -1,0 +1,55 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #FFFFFF url(images/pattern4.png) repeat-x;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #7F7772;
+}
+
+img {
+	border: none;
+}
+
+.gwt-cursor {
+	cursor: hand;
+  	cursor: pointer;
+}
+
+.gwt-popup-panel-blue {
+	background: url(images/pattern4.png) repeat;
+	border: 5px solid #0AAAFD;
+}
+
+.tt{
+	-moz-opacity: 0.7;
+    opacity: .70;
+    filter: alpha(opacity=70);
+}
+
+.gwt-button-ok-blue{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_ok_blue.png) no-repeat;
+	border: 0px;
+	cursor: hand;
+  	cursor: pointer;
+}
+
+.gwt-button-close-blue{
+	height: 32px;
+	width: 100px;
+	background: url(images/chiudi.png) no-repeat;
+	border: 0px;
+	cursor: hand;
+  	cursor: pointer;
+}

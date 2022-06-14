@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+
+<mapping>
+	<class name="it.csi.centrale.config.LoginCfg">
+	
+        <map-to xml="login"/>
+        
+        <field name="passwordList"
+				type="it.csi.centrale.config.Password"
+				collection="arraylist"
+				direct="false">
+				<bind-xml name="password" node="element"/>
+        </field>
+ 
+	</class>
+	
+	<class name="it.csi.centrale.config.Password">
+	
+		 <field name="type"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="type" node="element"/>
+        </field>
+        
+        <field name="value"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="value" node="element"/>
+        </field>
+        
+        <field name="mode"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="mode" node="element"/>
+        </field>
+	
+	</class>
+</mapping>

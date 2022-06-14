@@ -1,0 +1,949 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+ Copyright Regione Piemonte - 2021
+ SPDX-License-Identifier: EUPL-1.2-or-later
+_______________________________________________
+ Original Author of file: Pierfrancesco Vallosio
+ Purpose of file: Periferico application user manual and contextual help
+ Change log:
+   2021-11-25: single page version of the original frame based manual
+-->
+
+<html lang="it">
+
+<head>
+	<title>
+		Manuale del software Centrale
+	</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Language" content="it-it">
+	<link rel="stylesheet" type="text/css" href="../stylesheets/help.css">
+</head>
+
+<body>
+	<div class="column left_col">
+	<div class="left_content">
+		<h2>Indice generale</h2>
+		<a href="#introduction">Introduzione</a><br>
+		<a href="#login">Pagina iniziale</a><br>
+		<a href="#ui">Interfaccia utente</a><br>
+		<h3>Configurazione</h3>
+		<a href="#conf_listStationWidget">Lista stazioni</a><br>
+		<a href="#conf_stationWidget">Informazioni anagrafiche di una stazione</a><br>
+		<a href="#conf_cfgMapWidget">Posizione stazioni sulla mappa</a><br>
+		<a href="#conf_copWidget">Informazioni sul Cop</a><br>
+		<a href="#conf_linkStationWidget">Associazione stazioni tra database</a><br>
+		<a href="#conf_linkSensorWidget">Associazione sensori tra database</a><br>
+		<a href="#conf_unlinkStationWidget">Dissociazione stazioni tra database</a><br>
+		<a href="#conf_unlinkSensorWidget">Dissociazione sensori tra database</a><br>
+		<a href="#conf_physicalDimensionWidget">Configurazione comune - Dimensioni fisiche</a><br>
+		<a href="#conf_measureUnitWidget">Configurazione comune - Unit&agrave; di misura</a><br>
+		<a href="#conf_parameterWidget">Configurazione comune - Parametri</a><br>
+		<a href="#conf_alarmNameWidget">Configurazione comune - Nomi allarmi</a><br>
+		<a href="#conf_otherCommonCfgWidget">Configurazione comune - Altre informazioni</a><br>
+		<a href="#conf_modemWidget">Configurazione modem</a><br>
+		<h3>Visualizzazione</h3>
+		<a href="#view_viewMapWidget">Mappa</a><br>
+		<a href="#view_informaticStatusWidget">Stato informatico</a><br>
+		<a href="#view_stationStatusWidget">Stato stazione</a><br>
+		&nbsp;&nbsp;<a href="#view_historyStationStatusWidget">Storico degli allarmi di cabina</a><br>
+		<a href="#view_analyzerStatusWidget">Stato analizzatori</a><br>
+		&nbsp;&nbsp;<a href="#view_historyAnalyzersStatusWidget">Storico degli stati</a><br>
+		<a href="#view_viewDataWidget">Lista stazioni per consultazione dati</a><br>
+		<a href="#view_viewStationDataWidget">Consultazione dati</a><br>
+		&nbsp;&nbsp;<a href="#view_historyMeansDataWidget">Tabella delle medie</a><br>
+		&nbsp;&nbsp;<a href="#view_historyRealTimeDataWidget">Tabella dei dati istantanei</a><br>
+	</div>
+	</div>
+
+	<div class="column right_col">
+	<div class="right_content">
+		<h1 id="introduction">Introduzione</h1>
+		<p>Il presente documento costituisce il manuale del software Centrale 3.
+		</p>
+		<p>La consultazione pu&ograve; essere effettuata utilizzando l'indice
+		generale, situato nella colonna di sinistra, oppure dall'interfaccia utente
+		del software, utilizzando il bottone di help, per accedere direttamente
+		alle informazioni del manuale relative alla pagina corrente. 
+		</p>
+
+		<h1 id="login">Pagina iniziale</h1>
+		<p>La pagina iniziale dell'interfaccia utente del software Centrale
+		richiede unicamente l'inserimento della password di accesso, seguita
+		da un click sul pulsante sottostante.
+		</p>
+		<p>Nell'applicazione &egrave; possibile configurare due password, una per
+		ottenere un accesso con funzionalit&agrave; complete, l'altra per ottenere
+		un accesso limitato alla sola consultazione.
+		</p>
+
+		<h1 id="ui">Interfaccia utente</h1>
+		<p>L'interfaccia utente del software Centrale 3 &egrave; un'interfaccia
+		applicativa di tipo web, utilizzabile con un normale browser.
+		</p>
+		<p>Essa	presenta una barra superiore che consente di accedere direttamente
+		alle pagine principali dell'interfaccia; queste sono raggruppate in due
+		sezioni: configurazione e visualizzazione.
+		</p>
+		<p>Per passare da una sezione all'altra occorre premere il relativo
+		pulsante. In ogni pagina, vengono visualizzati i pulsanti di accesso diretto 
+		alle pagine della sezione corrente e, sul lato destro della barra, il pulsante 
+		per accedere all'altra sezione.
+		</p>
+		<p>Il pulsante della pagina correntemente selezionata assume il colore di
+		sfondo della pagina stessa, rendendo pi&ugrave; evidente quale sia la
+		pagina selezionata.
+		</p>
+
+		<h1 id="conf_listStationWidget">Configurazione delle stazioni</h1>
+		<p>La pagina di configurazione delle stazioni &egrave; suddivisa in
+		due schede: una consente di inserire in configurazione una nuova stazione,
+		l'altra visualizza la lista delle stazioni attualmente esistenti.
+		</p>
+		<h3>Nuova stazione</h3>
+		<p>Per inserire in configurazione una nuova stazione, &egrave; sufficiente
+		premere il pulsante "Aggiungi una nuova stazione" per accedere alla pagina
+		specifica di configurazione delle informazioni anagrafiche ad essa relative.
+		</p> 
+		<h3>Lista stazioni</h3>
+		<p>La lista delle stazioni visualizza l'elenco delle stazioni presenti in 
+		configurazione, consentendone la modifica e la cancellazione.
+		Per ciascuna stazione vengono visualizzati:
+		</p>	
+			<ul>
+				<li>lo stato di abilitazione (verde: abilitato, grigio: disabilitato)</li>
+				<li>il nome che identifica la stazione</li>
+				<li>il pulsante di modifica</li>
+				<li>il pulsante di cancellazione</li>
+			</ul>
+
+		<h1 id="conf_stationWidget">Informazioni per la connessione e informazioni anagrafiche</h1>
+		<p>La pagina di configurazione della stazione contiene due schede: la prima
+		per la configurazione delle informazioni di connessione alla stazione e	la
+		seconda per la configurazione delle informazioni anagrafiche della stazione.
+		</p>
+		<h3>Informazioni per la connessione</h3>
+		<p>La scheda di configurazione della connessione serve per la configurazione
+		 della connessione verso la stazione.<br>
+		</p>
+		<p>La configurazione della connessione richiede che siano specificate 
+		obbligatoriamente le seguenti informazioni:
+		</p>
+			<ul>
+				<li>nel caso di una nuova stazione, il nome breve della stessa</li>
+				<li>lo stato di abilitazione</li>
+				<li>l'indirizzo IP</li>
+				<li>l'utilizzo o meno del modem per la connessione</li>
+				<li>nel caso del modem, il numero di telefono</li>
+				<li>l'abilitazione o meno allo scarico dei dati istantanei</li>
+			</ul>
+		<p>Possono essere invece opzionalmente specificate le seguenti informazioni:
+		</p>
+			<ul>
+				<li>la porta IP</li>
+				<li>l'indirizzo IP del router</li>
+				<li>la frequenza di polling da forzare per la stazione</li>
+				<li>la data minima a partire dalla quale scaricare i dati</li>
+			</ul>
+		<p>I pulsanti che sono visualizzati in fondo a questa prima scheda sono: 
+		il pulsante di "Annulla"<img src="../images/undo_orange.gif" alt="undo" align="top"/>, che ripulisce le modifiche effettuate (e nel caso
+		di una nuova stazione fa tornare alla pagina di configurazione della lista
+		stazioni) e il pulsante che permette di scaricare le informazioni anagrafiche 
+		dal software di stazione.<img src="../images/download.png" alt="download" align="top"/> Quando questo scarico &egrave; terminato, verr&agrave;
+		visualizzato un altro bottone, quello di "Salva"<img src="../images/save_orange.gif" alt="save" align="top"/>, che permette di salvare sulla
+		Banca Dati del Centrale le informazioni anagrafiche scaricate dal software del
+		Periferico, nel caso in cui questo scarico sia avvenuto correttamente, e solo
+		le informazioni di connessione, nel caso in cui ci siano stati problemi nel
+		collegamento e/o nello scarico dal software di stazione.
+		</p>
+		<h3>Informazioni anagrafiche</h3>
+		<p>Le informazioni anagrafiche visualizzate in questa scheda sono quelle 
+		scaricate dal software di stazione tramite il bottone di "Scarica dal periferico"
+		oppure, nel caso di modifica di una stazione gi&agrave; presente nella Banca
+		Dati in cui non si sia ancora premuto tale bottone, le informazioni presenti
+		nella Banca Dati del Centrale.<br>Queste informazioni non sono modificabili
+		dall'utente. I campi visualizzati sono i seguenti:
+		</p>
+			<ul>
+				<li>nome breve</li>
+				<li>descrizione</li>
+				<li>ubicazione</li>
+				<li>indirizzo</li>
+				<li>citt&agrave;</li>
+				<li>provincia</li>
+				<li>utilizzo o meno del GPS</li>
+				<li>note</li>
+			</ul>
+
+		<h1 id="conf_cfgMapWidget">Posizione stazioni sulla mappa</h1>
+		<p>La pagina di configurazione della posizione delle stazioni &egrave; sulla mappa
+		&egrave; costituita dalla mappa della provincia sulla quale si possono posizionare
+		liberamente trascinandoli con il mouse i riquadri delle stazioni.<br>Le stazioni gi&agrave;
+		configurate sono disegnate sulla mappa nella posizione configurata in precedenza, mentre le
+		stazioni nuove si trovano in basso a sinistra fuori della mappa e devono essere posizionate
+		su di essa.
+		</p>
+		<p>&#200; inoltre presente in alto il bottone di "Salva", che permette di salvare le posizioni
+		delle stazioni attualmente visualizzate sulla mappa nella Banca Dati del Centrale.
+		</p>
+
+		<h1 id="conf_copWidget">Informazioni di configurazione del Cop</h1>
+		<p>La pagina di configurazione del Cop contiene tre schede: la prima
+		per la configurazione delle informazioni relative al polling delle stazioni, la
+		seconda per la configurazione avanzata del polling e la terza per la 
+		configurazione delle soglie per la temperatura.
+		</p>
+		<h3>Configurazione del polling</h3>
+		<p>La scheda di configurazione del polling serve per stabilire le informazioni
+		per il polling di tutte le stazioni.<br>
+		</p>
+		<p>La configurazione del Cop richiede che siano specificate obbligatoriamente
+		le seguenti informazioni:
+		</p>
+			<ul>
+				<li>la frequenza del polling, in minuti</li>
+				<li>l'informazione sull'utilizzo o meno della configurazione avanzata per il polling</li>
+				<li>la configurazione dello scarico dei dati istantanei (disabilitata, tutti i dati istantanei, solo i dati istantanei di calibrazione)</li>
+				<li>l'abilitazione allo scarico o meno dei dati degli allarmi di cabina e di analizzatore</li>
+				<li>il massimo numero di linee disponibili</li>
+				<li>il numero totale di modem</li>
+				<li>il numero di modem con linea condivisa</li>
+				<li>l'informazione se mantenere una linea riservata per chiamate dal periferico</li>
+				<li>il timeout del router</li>
+				<li>il timeout per i tentativi di connessione al router</li>
+				<li>l'indirizzo IP del Cop</li>
+			</ul>
+		<h3>Configurazione avanzata del polling</h3>
+		<p>Questa scheda viene visualizzata solo nel caso in cui l'utente abbia scelto nella 
+		scheda soprastante di abilitare la configurazione avanzata del polling. Questa
+		scheda contiene le seguenti informazioni che opzionalmente l'utente pu&ograve; inserire:
+		</p>	
+			<ul>
+				<li>l'ora di apertura dell'ufficio</li>
+				<li>l'ora di chiusura dell'ufficio</li>
+				<li>l'informazione se l'ufficio &egrave; chiuso al sabato</li>
+				<li>l'informazione se l'ufficio &egrave; chiuso alla domenica</li>
+				<li>la frequenza del polling fuori dall'orario di ufficio, in minuti</li>
+			</ul>
+		<h3>Configurazione delle soglie per la temperatura</h3>
+		<p>Questa scheda contiene le seguenti informazioni che opzionalmente l'utente pu&ograve; inserire,
+		reltive alle soglie per la visualizzazione della temperatura rilevata nelle stazioni, nella
+		pagina di visualizzazione della mappa:
+		</p>	
+			<ul>
+				<li>la soglia inferiore della temperatura, in gradi</li>
+				<li>la soglia superiore di attenzione della temperatura, in gradi</li>
+				<li>la soglia superiore di allarme della temperatura, in gradi</li>
+			</ul>
+		<p>I pulsanti che sono visualizzati in fondo alla pagina sono: 
+		il pulsante di "Annulla", che ripulisce le modifiche effettuate e il pulsante 
+		di "Salva", che permette di salvare sulla Banca Dati del Centrale le informazioni 
+		di configurazione del Cop della pagina.
+		</p>
+
+		<h1 id="conf_linkStationWidget">Associazione delle stazioni tra database</h1>
+		<h3>Associazione tra stazioni</h3>
+		<p>La pagina di associazione stazione tra i database contiene due liste:
+		</p>
+		<ul>
+				<li>lista delle stazioni configurate nel centrale</li>
+				<li>lista stazioni presenti nel database esterno</li>
+		</ul>
+		<br>
+		<p>Il pulsante di match tra le due liste consente di associare le due stazioni
+		selezionate. Quando si schiaccia questo pulsante si acceder&agrave; alla 
+		pagina di associazione sensori delle stazioni selezionate.
+		</p>
+		<h3>Elenco stazioni associate</h3>
+		<p>La tabella presenta l'elenco delle stazioni associate che per&ograve; 
+		hanno ancora qualche sensore che non &egrave; stato associato.<br>
+		</p>
+		<p>Il pulsante modifica, accanto a ciascuna riga delle stazioni associate, 
+		consente di accedere alla pagina di associazione tra i sensori delle due 
+		stazioni associate.
+		</p>
+
+		<h1 id="conf_linkSensorWidget">Associazione dei sensori tra database</h1>
+		<h3>Associazione tra sensori</h3>
+		<p>La pagina di associazione sensori tra i database contiene due liste:
+		</p>
+		<ul>
+				<li>lista dei sensori configurati nel centrale per la stazione indicata</li>
+				<li>lista sensori presenti nel database esterno per la stazione indicata</li>
+		</ul>
+		<br>
+		<p>Il pulsante di match tra le due liste consente di associare i due sensori
+		selezionati. Quando si schiaccia questo pulsante i due sensori 
+		scompariranno dalla lista.
+		</p>
+		<p>Il pulsante indietro consente di accedere alla pagina di associazione stazioni.
+		</p>
+
+		<h1 id="conf_unlinkStationWidget">Cancellazione collegamenti delle stazioni tra database</h1>
+		<h3>Cancellazione collegamento tra stazioni</h3>
+		<p>Questa pagina contine una tabella contenente nelle colonne:
+		</p>
+		<ul>
+				<li>lista delle stazioni del centrale collegate con </li>
+				<li>lista stazioni presenti nel database esterno</li>
+				<li>pulsante di cancellazione del collegamento</li>
+				<li>pulsante per accedere alla cancellazione dei collegamanti tra i 
+				sensori</li>
+		</ul>
+		<br>
+		<p>Cancellando il collegamanto tra due stazioni verranno automaticamente 
+		cancellati anche tutti i collegamenti tra i loro sensori.
+		</p>
+
+		<h1 id="conf_unlinkSensorWidget">Cancellazione collegamenti tra sensori</h1>
+		<h3>Cancellazione collegamento tra sensori</h3>
+		<p>Questa pagina contine una tabella contenente nelle colonne:
+		</p>
+		<ul>
+				<li>lista dei sensori della stazione selezionata del centrale 
+				collegate con </li>
+				<li>lista dei sensori della stazione del database esterno</li>
+				<li>pulsante di cancellazione del collegamento</li>
+		</ul>
+		<p>Il pulsante indietro consente di tornare alla pagina di cancellazione 
+		collegamenti tra stazioni.</p>
+
+		<h1 id="conf_physicalDimensionWidget">Configurazione comune - Gestione dimensioni fisiche</h1>
+		<p>La pagina di configurazione delle dimensioni fisiche consente di creare 
+		nuove dimensioni fisiche e di cancellare quelle esistenti presenti nella
+		 tabella visualizzata.
+		</p>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 <p>La creazione o la cancellazione di una dimensione fisica costituisce una 
+		 modifica della configurazione comune, pertanto, al prossimo polling di
+		  ciascuna stazione, verr&agrave; inviata nuovamente ai periferici.</p>
+		 
+		<h3>Nuova dimensione fisica</h3>
+		<p>Per creare una nuova dimensione fisica inserire nella casella di testo 
+		il nome della dimensione fisica e schiacciare il pulsante "Nuovo". 
+		La lista sottostante verr&agrave; aggiornata con la nuova dimensione 
+		fisica appena creata</p>
+		
+		<h3>Dimensioni fisiche esistenti</h3>
+		<p>In questa sezione viene mostrato l'elenco delle dimensioni fisiche 
+		esistenti, ciascuna con accanto un pulsante per la cancellazione; 
+		pertanto per cancellare &egrave; necessario schiacciare il pulsante "Cancella" 
+		accanto alla dimensione fisica che si desidera cancellare. Dopo la 
+		cancellazione, l'elenco verr&agrave; aggiornato.</p>
+
+		<h1 id="conf_measureUnitWidget">Configurazione comune - Gestione Unit&agrave; di misura</h1>
+		<p>La pagina di configurazione delle unit&agrave; di misura consente di creare
+		nuove Unit&agrave; di misura, di modificare e cancellare quelle esistenti 
+		presenti nella tabella visualizzata.
+		</p>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 <p>La creazione, la modifica o la cancellazione di una unit&agrave; di misura 
+		 costituisce una modifica della configurazione comune, pertanto, al 
+		 prossimo polling di ciascuna stazione, verr&agrave; inviata nuovamente 
+		 ai periferici.</p>
+		 
+		<h3>Nuova unit&agrave; di misura</h3>
+		<p>Per creare una nuova unit&agrave; di misura schiacciare il pulsante "Nuovo". 
+		Si aprira&agrave; una nuova pagina con le informazioni da inserire relative 
+		all'unit&agrave; di misura.</p>
+		<p>I campi "Nome unit&agrave; di misura" e "Descrizione" sono contrassegnati
+		 dall'asterisco pertanto sono obbligatori.</p>
+		<p>Il campo "Formula di conversione" pu&ograve; assumere due soli valori:
+		</p>
+			<ul>
+				<li>Nessuna: non viene applicata nessuna formula</li>
+				<li>vv2mpv: formula che prevede la trasformazione da volume/volume 
+				a massa per volume</li>
+			</ul>
+		<p>Per salvare le informazioni schiacciare il pulsante "Salva".</p>
+		<p>Per resettare tutti i campi schiacciare il pulsante "Azzera campi".</p>
+		<p>Attenzione: se non esistono dimensioni fisiche configurate, si verr&agrave;
+		indirizzati alla pagina di creazione delle dimensioni fisiche.</p>
+		
+		<h3>Unita&agrave; di misura esistenti</h3>
+		<p>In questa sezione viene mostrato l'elenco delle unita&agrave; di misura 
+		esistenti, ciascuna con accanto un pulsante per la modifica e la cancellazione.</p>
+		<p>Per modificare &egrave; necessario schiacciare il pulsante "Modifica"
+		accanto all'unita&agrave; di misura che si desidera modificare. Si 
+		aprira&agrave; una nuova pagina con le informazioni relative 
+		all'unit&agrave; di misura. Per la modifica dei campi preocedere come per 
+		la creazione di una nuova unit&agrave; di misura.</p> 
+		<p>Per cancellare &egrave; necessario schiacciare il pulsante "Cancella" 
+		accanto all'unita&agrave; di misura che si desidera cancellare. Dopo la 
+		cancellazione, l'elenco verr&agrave; aggiornato.</p>
+
+		<h1 id="conf_parameterWidget">Configurazione comune - Gestione parametri</h1>
+		<p>La pagina di configurazione dei parametri consente di creare
+		nuovi parametri, di modificare e cancellare quelle esistenti 
+		presenti nella tabella visualizzata.
+		</p>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 <p>La creazione, la modifica o la cancellazione di un parametro 
+		 costituisce una modifica della configurazione comune, pertanto, al 
+		 prossimo polling di ciascuna stazione, verr&agrave; inviata nuovamente 
+		 ai periferici.</p>
+		 
+		<h3>Nuovo parametro</h3>
+		<p>Per creare una nuovo parametro schiacciare il pulsante "Nuovo". 
+		Si aprira&agrave; una nuova pagina con le informazioni da inserire relative 
+		al parametro.</p>
+		<p>I campi "Id parametro" e "Nome" sono contrassegnati
+		 dall'asterisco pertanto sono obbligatori.</p>
+		<p>Per salvare le informazioni schiacciare il pulsante "Salva".</p>
+		<p>Per resettare tutti i campi schiacciare il pulsante "Azzera campi".</p>
+		<p>Attenzione: se non esistono dimensioni fisiche configurate, si verr&agrave;
+		indirizzati alla pagina di creazione delle dimensioni fisiche.</p>
+		
+		<h3>Parametri esistenti</h3>
+		<p>In questa sezione viene mostrato l'elenco dei parametri 
+		esistenti, ciascuna con accanto un pulsante per la modifica e la cancellazione.</p>
+		<p>Per modificare &egrave; necessario schiacciare il pulsante "Modifica"
+		accanto al parametro che si desidera modificare. Si 
+		aprira&agrave; una nuova pagina con le informazioni relative 
+		al parametro. Per la modifica dei campi preocedere come per 
+		la creazione di un nuovo parametro.</p> 
+		<p>Per cancellare &egrave; necessario schiacciare il pulsante "Cancella" 
+		accanto al parametro che si desidera cancellare. Dopo la 
+		cancellazione, l'elenco verr&agrave; aggiornato.</p>
+
+		<h1 id="conf_alarmNameWidget">Configurazione comune - Gestione nomi allarmi</h1>
+		<p>La pagina di configurazione dei nomi allarmi consente di creare
+		nuovi nomi allarmi, di modificare e cancellare quelle esistenti 
+		presenti nella tabella visualizzata.
+		</p>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 <p>La creazione, la modifica o la cancellazione di un parametro 
+		 costituisce una modifica della configurazione comune, pertanto, al 
+		 prossimo polling di ciascuna stazione, verr&agrave; inviata nuovamente 
+		 ai periferici.</p>
+		 
+		<h3>Nuovo nome allarme</h3>
+		<p>Per creare un nuovo nome allarme schiacciare il pulsante "Nuovo". 
+		Si aprira&agrave; una nuova pagina con le informazioni da inserire relative 
+		al nome allarme.</p>
+		<p>I campi "Id allarme" e "Nome allarme" sono contrassegnati
+		 dall'asterisco pertanto sono obbligatori.</p>
+		<p>Per salvare le informazioni schiacciare il pulsante "Salva".</p>
+		<p>Per resettare tutti i campi schiacciare il pulsante "Azzera campi".</p>
+		
+		<h3>Nomi allarmi esistenti</h3>
+		<p>In questa sezione viene mostrato l'elenco dei nomi allarmi 
+		esistenti, ciascuna con accanto un pulsante per la modifica e la cancellazione.</p>
+		<p>Per modificare &egrave; necessario schiacciare il pulsante "Modifica"
+		accanto al nome allarme che si desidera modificare. Si 
+		aprira&agrave; una nuova pagina con le informazioni relative 
+		al nome allarme. Per la modifica dei campi preocedere come per 
+		la creazione di un nuovo parametro.</p> 
+		<p>Per cancellare &egrave; necessario schiacciare il pulsante "Cancella" 
+		accanto al nome allarme che si desidera cancellare. Dopo la 
+		cancellazione, l'elenco verr&agrave; aggiornato.</p>
+
+		<h1 id="conf_otherCommonCfgWidget">Configurazione comune - Gestione altre informazioni</h1>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 <p>La modifica di ciascuna delle seguenti inofrmazioni 
+		 costituisce una modifica della configurazione comune, pertanto, al 
+		 prossimo polling di ciascuna stazione, verr&agrave; inviata nuovamente 
+		 ai periferici.</p>
+		 
+		<h3>Periodo di mediazione</h3>
+		<p>Per creare un nuovo periodo di mediazione inserire nell'apposita casella 
+		di testo il valore e schiacciare il pulsante "Nuovo". Si aggiorner&agrave;
+		 la tabella sottostante con il nuovo periodo di mediazione appena inserito.
+		</p>
+		<p>Per impostare un periodo di mediazione di default selezionarne uno; una
+		 finestra di dialogo chieder&agrave; conferma dellì'operazione.</p>
+		<p>Per cancellare un periodo di mediazione schiacciare i lpulsante "Cancella"
+		accanto al periodo di mediazione desiderato.</p>
+		
+		<h3>Gestione arcivio</h3>
+		<p>Inserire nelle caselle di testo le informazioni.Per salvare i campi 
+		relativi alla gestione archivio schiacciare il pulsante "salva"; 
+		per resettare i campi della gestione archivio schiacciare il pulsante 
+		"Azzera campi".</p>
+		
+		<h3>Standard</h3>
+		<p>Inserire nelle caselle di testo le informazioni. Per salvare i campi 
+		relativi a standard schiacciare il pulsante "salva"; 
+		per resettare i campi di standard schiacciare il pulsante 
+		"Azzera campi".</p>
+		
+		<h3>Altre informazioni</h3>
+		<p>Inserire nelle caselle di testo le informazioni. Per salvare i campi 
+		relativi alle altrre informazioni schiacciare il pulsante "salva"; 
+		per resettare i campi di altre informazioni schiacciare il pulsante 
+		"Azzera campi".</p>
+
+		<h1 id="conf_modemWidget">Configurazione modem</h1>
+		<p>La pagina di configurazione modem consente di creare
+		nuovi modem, di modificare e cancellare quelle esistenti 
+		presenti nella tabella visualizzata.
+		</p>
+		<p>Queste informazioni possono essere modificate soltanto da utenti con
+		 i privilegi di scrittura.</p>
+		 
+		<h3>Nuovo modem</h3>
+		<p>Per creare un nuovo modem schiacciare il pulsante "Nuovo". 
+		Si aprira&agrave; una nuova pagina con le informazioni da inserire relative 
+		al modem.</p>
+		<p>Il campi "Id modem"&egrave; contrassegnato dall'asterisco pertanto &egrave;
+		 obbligatorio.</p>
+		<p>Per salvare le informazioni schiacciare il pulsante "Salva".</p>
+		<p>Per resettare tutti i campi schiacciare il pulsante "Azzera campi".</p>
+		
+		<h3>Configurazioni modem esistenti</h3>
+		<p>In questa sezione viene mostrato l'elenco dei modem 
+		esistenti, ciascuno con accanto un pulsante per la modifica e la cancellazione.</p>
+		<p>Per modificare &egrave; necessario schiacciare il pulsante "Modifica"
+		accanto al modem che si desidera modificare. Si 
+		aprira&agrave; una nuova pagina con le informazioni relative 
+		al modem. Per la modifica dei campi preocedere come per 
+		la creazione di un nuovo modem.</p> 
+		<p>Per cancellare &egrave; necessario schiacciare il pulsante "Cancella" 
+		accanto al modem che si desidera cancellare. Dopo la 
+		cancellazione, l'elenco verr&agrave; aggiornato.</p>
+
+		<h1 id="view_viewMapWidget">Visualizzazione della mappa</h1>
+		<p>La pagina di visualizzazione dello stato del polling delle stazioni sulla mappa &egrave;
+		costituita dalla mappa della provincia sulla quale sono posizionati i riquadri delle stazioni.
+		</p>
+		<p>
+		Nel riquadro di ogni singola stazione sono visualizzate in modo sintetico le seguenti informazioni
+		relative allo stato di polling della stazione stessa:
+		</p>
+			<ul>
+				<li>il nome breve della stazione</li>
+				<li>la data e l'ora dell'ultimo polling avvenuto correttamente</li>
+				<li>il valore della temperatura della stazione, ove presente</li>
+				<li>l'icona relativa allo stato di comunicazione</li>
+				<li>l'icona relativa allo stato informatico</li>
+				<li>l'icona relativa agli allarmi di cabina e di analizzatore</li>
+				<li>l'icona relativa alla sincronizzazione della stazione</li>
+				<li>l'icona relativa allo stato dell'allarme porta, ove presente</li>
+			</ul>
+		<p>
+		In particolare, ogni icona pu&#242; assumere diversi aspetti, in modo da segnalare lo stato attuale
+		di quella informazione. Qui di seguito ne viene data una breve descrizione per ognuna di esse.
+		<br>
+		Per quanto rigurada l'icona relativa allo stato di comunicazione, essa pu&#242; assumere i
+		seguenti stati:
+		</p>
+			<ul>
+				<li><img src="../../images/com_gray_no_frecce.png" alt="unknown status"></img> &nbsp; stato sconosciuto</li>
+				<li><img src="../../images/router_router_ok_animated.gif" alt="router to router ok"></img>&nbsp; chiamata verso il router di stazione in corso</li>
+				<li><img src="../../images/router_router_ko.png" alt="router to router ko"></img>&nbsp; errore di comunicazione con il router remoto</li>
+				<li><img src="../../images/router_locale_ko.png" alt="local router ok"></img> &nbsp;  errore di comunicazione con il router locale</li>
+				<li><img src="../../images/pc_not_responding.png" alt="PC not responding"></img> &nbsp;  errore di comunicazione con il pc di stazione</li>
+				<li><img src="../../images/dialogo_in_corso.gif" alt="communication in progress"></img> &nbsp;  dialogo tra applicazioni in corso</li>
+				<li><img src="../../images/com_ok.png" alt="communication ok"></img> &nbsp;  polling terminato correttamente</li>
+				<li><img src="../../images/com_ko.png" alt="communication failed"></img> &nbsp;  il software di stazione non risponde o errore fatale di protocollo</li>
+				<li><img src="../../images/caduta_linea.png" alt="communication dropped"></img> &nbsp; linea interrotta</li>
+			</ul>
+		<p>
+		Per quanto riguarda l'icona relativa allo stato informatico del Periferico, essa pu&#242; assumere i
+		seguenti stati:
+		</p>
+			<ul>
+				<li><img src="../../images/informatic_status_gray_small.png" alt="informatic status unknown"></img> &nbsp; stato sconosciuto</li>
+				<li><img src="../../images/informatic_status_ok_small.png" alt="informatic status ok"></img> &nbsp; stato informatico corretto</li>
+				<li><img src="../../images/informatic_status_ko_small.png" alt="informatic status ko"></img> &nbsp; stato informatico con errori</li>
+				<li><img src="../../images/informatic_status_warning_small.png" alt="informatic status warning"></img> &nbsp; stato informatico con warning</li>
+				
+			</ul>
+		<p>
+		Per quanto riguarda l'icona relativa agli allarmi di cabina e di analizzatore, essa pu&#242; assumere i
+		seguenti stati:
+		</p>
+			<ul>
+				<li><img src="../../images/station_alarm_gray_small.png" alt="station alarm unknown"></img> &nbsp; stato sconosciuto</li>
+				<li><img src="../../images/station_alarm_ok_small.png" alt="station alarm clear"></img> &nbsp; nessun allarme di analizzatore o di cabina</li>
+				<li><img src="../../images/station_alarm_ko_small.png" alt="station alarm active"></img>&nbsp; almeno un allarme attivo di analizzatore o di cabina</li>
+			</ul>
+		<p>
+		Per quanto riguarda l'icona relativa alla sincronizzazione della stazione, essa pu&#242; assumere i
+		seguenti stati:
+		</p>
+			<ul>
+				<li><img src="../../images/time_gray.png" alt="time sync unknown status"></img> &nbsp; stato sconosciuto</li>
+				<li><img src="../../images/time_green.png" alt="time sync ok"></img> &nbsp; stazione sincronizzata</li>
+				<li><img src="../../images/time_yellow.png" alt="time sync failed but clock ok"></img> &nbsp; sincronizzazione fallita, ma ora della stazione corretta entro i limiti prestabiliti</li>
+				<li><img src="../../images/time_red.png" alt="time sync failed and clock not ok"></img> &nbsp; sincronizzazione fallita, con ora della stazione errata rispetto ai limiti prestabiliti</li>
+			</ul>
+		<p>
+		Per quanto riguarda l'icona relativa allo stato dell'allarme porta, essa pu&#242; assumere i
+		seguenti stati:
+		</p>
+			<ul>
+				<li><img src="../../images/door_gray.png" alt="door status unknown"></img> &nbsp; stato sconosciuto</li>
+				<li><img src="../../images/close_door.png" alt="door closed"></img> &nbsp; porta chiusa</li>
+				<li><img src="../../images/open_door.png" alt="door open"></img> &nbsp; porta aperta</li>
+			</ul>
+		<p>
+		Inoltre, cliccando con il tasto sinistro del mouse nel riquadro di una stazione, si passa alla <a href="analyzerStatusWidget.html">pagina
+		di visualizzazione degli allarmi degli analizzatori.</a>
+		<br>Cliccando invece con il tasto destro del mouse nel riquadro di una stazione, si apre un menu a tendina
+		a destra che permette di eseguire le seguenti operazioni:
+		</p>
+			<ul>
+				<li>Esegui polling: esegue immediatamente un polling sulla singola stazione</li>
+				<li>Configura la stazione: porta direttamente alla <a href="#conf_stationWidget">pagina di configurazione della stazione</a></li>
+				<li>Apri l'interfaccia grafica della stazione: apre un popup in cui si collega all'interfaccia grafica del Periferico</li>
+			</ul>	
+		<p>
+		Nella pagina in alto a destra &#232; inoltre presente un bottone <img src="../images/polling_now.png" alt="start polling now" align="top"/>che permette di far partire
+		un polling immediato di tutte le stazioni.
+		</p>
+
+		<h1 id="view_informaticStatusWidget">Stato informatico</h1>
+		<p>Questa pagina visualizza le informazioni relative allo stato informatico
+		della stazione selezionata, ovvero al corretto funzionamento della stessa.
+		<br> Tali informazioni sono raggruppate in tre sezioni:
+		</p>
+			<ul>
+				<li><a href="#stato_app">Stato del software Periferico</a></li>
+				<li><a href="#dischi">Stato dei dischi</a></li>
+				<li><a href="#gps">Stato del gps</a></li>
+				<li><a href="#comm">Stato comunicazione</a></li>
+			</ul>
+		<h3><a name="stato_app">Stato del software Periferico</a></h3>
+		<p>Lo stato del software Periferico viene riassunto tramite un indicatore che
+		rappresenta lo stato globale del software: se il funzionamento &egrave;
+		regolare l'indicatore &egrave; di colore verde, altrimenti &egrave; di colore
+		rosso; in tal caso occorre rivolgersi all'assistenza per la soluzione del
+		problema.<br>Le informazioni di dettaglio sullo stato dell'applicazione sono
+		cos&igrave; raggruppate:
+		</p>
+			<ul>
+				<li>Stato delle schede di acquisizione</li>
+				<li>Stato delle configurazioni</li>
+				<li>Stato dei servizi applicativi</li>
+			</ul>
+		In generale, a ciascuna informazione &egrave; associato un indicatore di
+		stato che assume il colore verde in condizioni regolari e il colore rosso
+		in caso di anomalie.
+		<h4>Stato delle schede di acquisizione</h4>
+		<p>Le informazioni visualizzate sono:
+		</p>
+			<ul>
+				<li>lo stato di inizializzazione della libreria che gestisce le
+				schede di acquisizione</li>
+				<li>il numero di schede presenti in configurazione e il numero
+				di schede correttamente inizializzate</li>
+				<li>il numero di associazioni fallite tra i canali delle schede
+				e i loro utilizzatori</li>
+			</ul>
+		<h4>Stato delle configurazioni</h4>
+		<p>Le informazioni visualizzate sono:
+		</p>
+			<ul>
+				<li>lo stato di caricamento della configurazione, che pu&ograve;
+				essere: mancante, corrotta, errata oppure corretta</li>
+				<li>la riuscita del salvataggio di una nuova configurazione;
+				se non &egrave; ancora stata salvata una configurazione dopo
+				l'avvio dell'applicazione l'indicatore di stato &egrave; di colore
+				grigio</li>
+				<li>lo stato di attivazione della configurazione attuale che
+				pu&ograve; essere: attiva (verde), non attiva (rosso), non
+				disponibile (grigio, caso in cui la configurazione non &egrave;
+				stata caricata)</li>
+			</ul>
+		<h4>Stato dei servizi applicativi</h4>
+		<p>Questa scheda visualizza lo stato di funzionamento dei servizi che
+		costituiscono parte integrante del software Periferico stesso:
+		</p>
+			<ul>
+				<li>driver degli analizzatori con interfaccia dati: numero di driver
+				utilizzati, numero di driver inizializzati correttamente, numero di
+				driver bloccati da un errore fatale; il funzionamento &egrave;
+				regolare quando il numero di driver inizializzati correttamente
+				&egrave; uguale a quello di driver utilizzati e non vi sono
+				driver bloccati</li>
+				<li>numero di errori avvenuti durante la scrittura dei dati su
+				disco</li>
+				<li>numero di errori dei servizi applicativi: totali, dall'avvio
+				dell'applicazione, indicatore giallo se > 0, attuali, ovvero il cui
+				effetto condiziona ancora l'applicazione, indicatore rosso se > 0;
+				l'indicatore &egrave; verde se non vi sono errori.</li>
+			</ul>
+		<h3><a name="dischi">Stato dei dischi</a></h3>
+		<p>Questa sezione visualizza la percentuale di spazio disco occupato nei
+		filesystem che ospitano rispettivamente le cartelle contenenti:
+		</p>
+			<ul>
+				<li>il sistema operativo (disco root)</li>
+				<li>i dati dell'applicazione (disco data)</li>
+				<li>le informazioni temporanee (disco tmp)</li>
+			</ul>
+		<p>In condizioni normali la percentuale di spazio disco occupato &egrave;
+		associata ad un'icona di colore verde. Quando la parcentuale supera la
+		soglia di attenzione l'icona assume il colore giallo, quando supera la
+		soglia di allarme assume il colore rosso.<br>Il software Periferico usa 
+		come soglie di attenzione e di allarme predefinite rispettivamente 80% e 
+		90%. Tali soglie possono essere cambiate agendo sulla configurazione 
+		globale della rete di rilevamento. 
+		</p>
+		<p>Nota: una o pi&ugrave; percentuali possono essere permanentemente uguali
+		tra loro, questo significa che le cartelle a cui esse si riferiscono si
+		trovano	nello stesso filesystem; tale situazione si pu&ograve; verificare in
+		alcune tipologie di installazione.
+		</p>
+		<h3><a name="gps">Stato del gps</a></h3>
+		<p>Questa sezione visualizza lo stato del sistema GPS.<br>Nel caso in cui
+		la configurazione di stazione non preveda l'uso del GPS, viene visualizzato
+		unicamente un indicatore di colore grigio con la scritta
+		"GPS non installato".<br>Nel caso in cui la configurazione di stazione
+		preveda l'utlizzo del GPS, viene visualizzato un indicatore di colore verde
+		con la scritta "GPS installato", unitamente alle informazioni sullo stato
+		del dispositivo e della localizzazione.
+		</p>
+		<p>Le informazioni relative allo stato del dispositivo prevedono un
+		indicatore verde, nel caso in cui risulta possibile acquisire la posizione,
+		e un indicatore rosso, in caso contrario.<br>L'indicatore di colore verde
+		&egrave; associato all'informazione del tipo di localizzazione ottenuta che
+		pu&ograve; essere bidimensionale o tridimensionale.<br>Unitamente
+		all'indicatore di colore rosso viene visualizzata la descrizione del
+		problema che impedisce la localizzazione; i possibili problemi sono:
+		</p>
+			<ul>
+				<li>il driver del GPS non risponde</li>
+				<li>il dispositivo GPS non &egrave; stato rilevato</li>
+				<li>il GPS non riceve il segnale</li>
+			</ul>
+		<p>Quando la localizzazione &egrave; possibile, vengono visualizzate le
+		informazioni ad essa relative: data, latitudine, longitudine e altitudine
+		(quest'ultima solo nel caso di localizzazione tridimensionale).
+		</p>
+		<h3><a name="comm">Comunicazione</a></h3>
+		<p>Questa sezione visualizza lo stato della comunicazione. Gli stati 
+		possibili sono i seguenti:
+		</p>
+		<ul>
+			<li><img src="../../images/com_gray_no_frecce.png" alt="communication status unknown"></img> &nbsp;l'ultima 
+			comunicazione con la stazione &egrave; avvenuta in modo regolare </li>
+			<li><img src="../../images/com_ko.png" alt="communication failed"></img> &nbsp; il 
+			software di stazione non risponde o &egrave; bloccato</li>
+			<li><img src="../../images/pc_not_responding.png" alt="PC not responding"></img> &nbsp; il 
+			pc di stazione non &egrave; raggiungibile, potrebbe essere 
+			spento o bloccato</li>
+			<li><img src="../../images/router_locale_ko.png" alt="local router not responding"></img> &nbsp; il router locale
+			non &egrave; raggiungibile, potrebbe esserci un guasto al router 
+			</li>
+			 <li><img src="../../images/router_router_ko.png" alt="router to router ko"></img> &nbsp; il router 
+			remoto non &egrave; raggiungibile, potrebbe esserci un problema alle
+			 linee telefoniche oppure la cabina potrebbe esssere senza
+			  alimentazione elettrica.</li>
+		</ul>
+		<p>
+		Nella pagina in alto a destra, sono inoltre presenti due pulsanti, che 
+		permettono di
+		accedere rispettivamente alla <a href="#view_analyzerStatusWidget">pagina 
+		di visualizzazione dello stato degli allarmi di analizzatore</a> e alla 
+		<a href="#view_stationStatusWidget">pagina di visualizzazione dello
+		 stato degli allarmi della stazione.
+		</a>
+		</p>
+
+		<h1 id="view_stationStatusWidget">Stato stazione</h1>
+		<p>Questa pagina visualizza lo stato della stazione selezionata, sotto forma di una
+		tabella contenente l'elenco degli allarmi di cabina.<br>Per ciascun allarme
+		di cabina vengono visualizzati il nome, la descrizione, lo stato e la data
+		dell'ultima variazione dello stato.<br>La prima colonna della tabella
+		contiene, per ciascun allarme, un pulsante che consente di consultare lo
+		storico degli stati.
+		</p>
+		<p>Per gli allarmi di tipo binario viene visualizzato un indicatore di
+		colore rosso quando l'allarme &egrave; attivo, di colore verde quando
+		l'allarme non &egrave; attivo. 
+		</p>
+		<p>Per gli allarmi di tipo analogico, in base allo stato di superamento
+		delle soglie, possono essere visualizzate le seguenti icone:
+		</p>
+			<ul>
+				<li><img src="../images/alarm_high.gif" alt="alarm high"/>: superamento della soglia superiore di allarme</li>
+				<li><img src="../images/warning_high.gif" alt="warning high"/>: superamento della soglia superiore di attenzione</li>
+				<li><img src="../images/ledgreen.gif" alt="no alarm"/>: situazione regolare</li>
+				<li><img src="../images/warning_low.gif" alt="warning low"/>: valore al di sotto della soglia inferiore di attenzione</li>
+				<li><img src="../images/alarm_low.gif" alt="alarm low"/>: valore al di sotto della soglia inferiore di allarme</li>
+			</ul> 
+		<p>Per la consultazione dello storico degli stati degli allarmi si deve
+		utilizzare il pulsante presente nella prima colonna della tabella, relativo
+		all'allarme di cabina per cui si vuole effettuare la consultazione.<br>Per
+		effettuare la consultazione vengono richieste le seguenti informazioni:
+		</p>
+			<ul>
+				<li>data inizio (default: giorno corrente)</li>
+				<li>ora inizio (default: 00:00)</li>
+				<li>data fine (default: giorno corrente)</li>
+				<li>ora fine (default: ora attuale)</li>
+			</ul>
+		Dopo aver inserito le informazioni richieste, premendo il pulsante di
+		conferma, si accede alla <a href="#view_historyStationStatusWidget">pagina che
+		visualizza lo storico degli stati</a>.
+		<p>
+		Nella pagina in alto a destra, sono inoltre presenti due pulsanti, che permettono di
+		accedere rispettivamente alla <a href="#view_analyzerStatusWidget">pagina di visualizzazione dello
+		stato degli allarmi di analizzatore</a> e alla <a href="#view_informaticStatusWidget">pagina di visualizzazione dello stato informatico della stazione.
+		</a>
+		</p>
+
+		<h1 id="view_historyStationStatusWidget">Storico degli allarmi di cabina</h1>
+		<p>Questa pagina visualizza una tabella contenente l'elenco degli stati
+		storici degli allarmi di cabina, in base alla richiesta effettuata nella
+		<a href="#view_stationStatusWidget">pagina di stato stazione</a>.
+		</p>
+		<p>Le informazioni contenute nella tabella sono, per ciascuna variazione
+		dello stato: data e ora in cui &egrave; avvenuta la variazione dello stato,
+		valore dello stato.
+		</p>
+
+		<h1 id="view_analyzerStatusWidget">Stato analizzatori</h1>
+		<p>Questa pagina visualizza una tabella contenente l'elenco degli
+		analizzatori presenti nella stazione di	misura selezionata.<br>Per ciascun analizzatore
+		vengono visualizzati il nome, la marca e il modello nonch&eacute; le
+		informazioni di stato correnti.<br>La prima colonna della tabella contiene,
+		per ciascun analizzatore, un pulsante che consente di consultare lo storico
+		degli stati degli analizzatori.
+		</p>
+		<p>Le informazioni di stato visualizzate sono:
+		</p>
+			<ul>
+				<li>Stato del segnale di allarme dell'analizzatore:
+					<ul>
+						<li>verde: funzionamento regolare</li>
+						<li>rosso: allarme attivo</li>
+						<li>grigio: informazione non disponibile</li>
+					</ul>
+				</li>
+				<li>Stato di manutenzione in corso:
+					<ul>
+						<li>giallo: attivo</li>
+						<li>grigio: non attivo</li>
+					</ul>
+				</li>
+				<li>Stato di calibrazione manuale in corso:
+					<ul>
+						<li>giallo: attivo</li>
+						<li>grigio: non attivo</li>
+					</ul>
+				</li>
+				<li>Stato di calibrazione automatica in corso: predisposizione per
+				implementazioni future
+				</li>
+				<li>stato di calibrazione automatica fallita: predisposizione per
+				implementazioni future
+				</li>
+			</ul>
+		<p>
+		Per la consultazione dello storico degli stati degli analizzatori si deve
+		utilizzare il pulsante presente nella prima colonna della tabella, relativo
+		all'analizzatore per cui si vuole effettuare la consultazione.<br>Per
+		effettuare la consultazione vengono richieste le seguenti informazioni:
+		</p>
+			<ul>
+				<li>data inizio (default: giorno corrente)</li>
+				<li>ora inizio (default: 00:00)</li>
+				<li>data fine (default: giorno corrente)</li>
+				<li>ora fine (default: ora attuale)</li>
+				<li>stato da consultare:
+					<ul>
+						<li>fault: allarme dell'analizzatore</li>
+						<li>maintenance: manutenzione</li>
+						<li>man_calib: calibrazione manuale</li>
+						<li>achk_run: calibrazione automatica</li>
+						<li>achk_fail: calibrazione automatica fallita</li>
+					</ul>
+				</li>
+			</ul>
+		Dopo aver inserito le informazioni richieste, premendo il pulsante di
+		conferma, si accede alla <a href="#view_historyAnalyzersStatusWidget">pagina che
+		visualizza lo storico degli stati</a>.
+		<p>
+		Nella pagina in alto a destra, sono inoltre presenti due pulsanti, che permettono di
+		accedere rispettivamente alla <a href="#view_informaticStatusWidget">pagina di visualizzazione dello stato informatico della stazione
+		</a>e alla <a href="#view_stationStatusWidget">pagina di visualizzazione dello stato degli allarmi di stazione.</a>
+		</p>
+
+		<h1 id="view_historyAnalyzersStatusWidget">Storico degli stati</h1>
+		<p>Questa pagina visualizza una tabella contenente l'elenco degli stati
+		storici, in base alla richiesta effettuata nella <a href="#view_analyzerStatusWidget">pagina di 
+		stato degli analizzatori</a>.
+		</p>
+		<p>Le informazioni contenute nella tabella sono, per ciascuna variazione
+		dello stato: data e ora in cui &egrave; avvenuta la variazione dello stato,
+		valore dello stato.
+		</p>
+
+		<h1 id="view_viewDataWidget">Consultazione dati</h1>
+		<p>La pagina per la scelta della stazione per la quale si intendono consultare
+		i dati memorizzati nella Banca Dati del centrale, presenta semplicemente una scheda.
+		<br>In questa scheda &egrave; contenuta una tendina per la scelta della stazione ed
+		il pulsante per accedere alla <a href="#view_viewStationDataWidget">pagina di visualizzazione delle ultime medie relative 
+		alla stazione selezionata.</a>
+		</p>
+
+		<h1 id="view_viewStationDataWidget">Visualizzazione ultime medie di una stazione</h1>
+		<p>Questa pagina visualizza una tabella contenente l'elenco di tutti gli
+		elementi misurati dalla stazione per i diversi periodi di mediazione,
+		al fine di poter effettuare la consultazione dei valori delle ultime medie
+		acquisite dalla stazione stessa.
+		</p>
+		<p>Per ciascun elemento viene visualizzato l'ultimo valore di media acquisito
+		 comprensivo di unit&agrave; di misura, data e ora di acquisizione, dei flag e 
+		del periodo di mediazione. Tale dato viene aggiornato quando si entra nella pagina e
+		ogni volta  che viene premuto il pulsante di refresh <img src="../images/reload_blue.gif" alt="reload" align="top"/>.
+		</p>
+		<p>La consultazione dello storico dei dati istantanei e delle medie memorizzati
+		nella Banca Dati del Centrale pu&ograve; essere effettuata utilizzando gli appositi
+		pulsanti situati nelle prime due colonne della tabella. Sia per i dati istantanei
+		che per le medie &egrave; possibile effettuare la visualizzazione in forma tabellare
+		oppure grafica; &egrave; inoltre possibile lo scarico dei dati in formato csv.
+		</p>
+
+		<h1 id="view_historyMeansDataWidget">Tabella delle medie</h1>
+		<p>La tabella delle medie visualizza, per l'elemento, il periodo di mediazione ed l'intervallo di tempo
+		selezionati, le seguenti informazioni:
+		</p>
+			<ul>
+				<li>valore</li>
+				<li>unit&agrave; di misura</li>
+				<li>data</li>
+				<li>flag di validit&agrave;</li>
+				<li>flag multiplo (rappresenta le condizioni in cui i dati sono
+				stati acquisiti)</li>
+			</ul>
+		<p>
+		Nella pagina in alto a destra &#232; inoltre presente un bottone di "Indietro" che permette di tornare
+		alla <a href="#view_viewStationDataWidget">pagina di visualizzazione delle ultime medie della stazione.</a>
+		</p>
+
+		<h1 id="view_historyRealTimeDataWidget">Tabella dei dati istantanei</h1>
+		<p>La tabella dei dati istantanei visualizza i dati istantanei che eventualmente
+		(ovvero nel caso in cui il Centrale sia stato configurato in tal senso) 
+		sono stati scaricati dalla stazione selezionata.
+		<br>
+		Tale tabella visualizza, per l'elemento ed il periodo selezionati, le seguenti informazioni:
+		</p>
+			<ul>
+				<li>valore</li>
+				<li>unit&agrave; di misura</li>
+				<li>data</li>
+				<li>flag di validit&agrave;</li>
+				<li>flag multiplo (rappresenta le condizioni in cui i dati sono
+				stati acquisiti)</li>
+			</ul>
+		<p>
+		Nella pagina in alto a destra &#232; inoltre presente un bottone di "Indietro" che permette di tornare
+		alla <a href="#view_viewStationDataWidget">pagina di visualizzazione delle ultime medie della stazione.</a>
+		</p>
+
+	</div> 
+	</div> 
+</body>
+
+</html>
+	

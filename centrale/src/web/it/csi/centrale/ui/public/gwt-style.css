@@ -1,0 +1,941 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #FFFFFF url(images/body_bg.jpg) repeat-x;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #555452;
+}
+
+p, ul, ol {
+	margin-bottom: 15px;
+	line-height: 1.6em;
+}
+
+a:link {
+	color: #0AAAFD;
+}
+
+a:hover, a:active {
+	text-decoration: none;
+	color: #FF6700;
+}
+
+a:visited {
+	color: #555452;
+}
+
+img {
+	border: none;
+}
+
+/* Menu */
+
+#menu {
+	background: #FFFFFF url(images/menu_bg.jpg) repeat-x;
+	width: auto;
+	height: 55px;
+	min-width: 1000px;
+	margin: 0 auto;
+}
+
+#menu a {
+	display: block;
+	width: 122px;
+	background: url(images/img02.jpg) no-repeat;
+	text-align: center;
+}
+
+#menu a:hover {
+	background-image: url(images/img03.jpg);
+}
+
+#menu .active {
+	padding-top: 0px;
+}
+
+#menu .active a {
+	background-image: url(images/img04_2.jpg);
+}
+
+#menu .active a:hover {
+	background-image: url(images/img04_2.jpg);
+}
+/* Grid */
+
+.gwt-Grid {
+	border: 1px solid #FF8D17;
+	text-align: center;
+}
+
+.gwt-row-selected {
+	background-color: #ffcb85;
+}
+
+.gwt-Label-title {
+	height: 30px;
+	margin: 0;
+	padding: 0px 0 0 20px;
+	background: url(images/img08_1.jpg) no-repeat;
+	letter-spacing: -1px;
+	color: #FF3300;
+	font-size: 130%;
+}
+
+.gwt-Label-title-blue {
+	height: 30px;
+	margin: 0;
+	padding: 0px 0 0 20px;
+	background: url(images/img10_2.jpg) no-repeat;
+	letter-spacing: -1px;
+	color: #327EBE;
+	font-size: 130%;
+}
+
+.gwt-post-boxed-blue {
+	margin-bottom: 20px;
+	padding: 5px;
+	border: 1px solid #0AAAFD;
+	/*background: #FFF3EA;*/
+	background: url(images/pattern4.png) repeat;
+	width: 100%;
+}
+
+.gwt-Label-help {
+	padding: 5px;
+	border: 1px solid #FF8D17;
+
+}
+
+.gwt-post-boxed {
+	margin-bottom: 20px;
+	padding: 5px;
+	border: 1px solid #FF8D17;
+	/*background: #FFF3EA;*/
+	background: url(images/pattern2.png) repeat;
+	width: 1000px;
+}
+
+.gwt-bg-text-blue {
+	background: #ebffff;
+	border-top: thin ridge #1977ff;
+	border-left: thin ridge #1977ff;	
+}
+
+.gwt-bg-text-orange {
+	background: #fff7ed;
+	border-top: thin ridge #f6790d;
+	border-left: thin ridge #f6790d;
+}
+
+.gwt-button-enabled {
+	height: 32px;
+	width: 32px;
+	text-align: center;
+	background: url(images/ledgreen-small.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-cursor {
+  	cursor: pointer;
+}
+
+.gwt-button-disabled {
+	height: 32px;
+	width: 32px;
+	text-align: center;
+	background: url(images/ledgray-small.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-panel{
+	width: 988px;
+}
+
+.gwt-button-new-orange {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/new_orange.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-download {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/download.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-help-blue {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/pulsante_help.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-help {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/button_help_orange.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+
+
+.gwt-button-back {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/button_back.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-back-blue {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/button_back_blue.jpg) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-list-element{
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/list_element_button.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-new-riquadro {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/new_riquadro.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-associate {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/connect_creating.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-linkdb {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/link_button.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-unlinkdb {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/unlink_button.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-configure {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/configure.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-save {
+	height: 32px;
+	width: 100px;
+	background: url(images/save_orange.png) no-repeat;
+	margin-right:5px;
+	border: 0px;
+ 	cursor: pointer;
+}
+
+.gwt-no-border-panel {
+	border: 0px;
+}
+
+.gwt-popup-panel {
+	background: url(images/pattern2.png) repeat;
+	border: 5px solid #FF8D17;
+}
+
+.gwt-popup-panel-blue {
+	background: url(images/pattern4.png) repeat;
+	border: 5px solid #0AAAFD;
+}
+
+.tt{
+	-moz-opacity: 0.7;
+    opacity: .70;
+    filter: alpha(opacity=70);
+}
+
+.gwt-button-reload {
+	height: 32px;
+	width: 100px;
+	background: url(images/reload_all.jpg) no-repeat;
+	margin-left:5px;
+	border: 0px;
+    cursor: pointer;
+}
+
+.gwt-button-undo {
+	height: 32px;
+	width: 100px;
+	background: url(images/undo_arancio.png) no-repeat;
+	border: 0px;
+    cursor: pointer;
+}
+
+.gwt-button-undo-blue {
+	height: 32px;
+	width: 100px;
+	background: url(images/button_undo_blue.png) no-repeat;
+	border: 0px;
+    cursor: pointer;
+}
+
+.gwt-button-polling{
+	height: 32px;
+	width: 100px;
+	background: url(images/polling_now.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-during-polling{
+	height: 32px;
+	width: 100px;
+	background: url(images/antenna_animata.gif) no-repeat;
+	border: 0px;
+}
+
+.gwt-button-send-verify{
+	height: 32px;
+	width: 100px;
+	background: url(images/send_verify_arancio.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-send-verify-blue{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_ok_blue.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-del{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_delete.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-csv{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_csv_blue.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-csv_orange{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_csv_orange.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-chart{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_chart_blue.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-csv{
+	height: 32px;
+	width: 100px;
+	background: url(images/button_csv_blue.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-physical-dimension{
+	height: 32px;
+	width: 100px;
+	background: url(images/physical_dimension.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-parameter{
+	height: 32px;
+	width: 100px;
+	background: url(images/parameter.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-xml{
+	height: 32px;
+	width: 100px;
+	background: url(images/xml.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-measure-unit{
+	height: 32px;
+	width: 100px;
+	background: url(images/measure_unit.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-other-common-cfg{
+	height: 32px;
+	width: 100px;
+	background: url(images/other_commoncfg.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-alarm-name{
+	height: 32px;
+	width: 100px;
+	background: url(images/alarm_name.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-modify {
+	height: 35px;
+	width: 35px;
+	background: url(images/modify.png) no-repeat;
+	text-align: center;
+	border: 0;
+  	cursor: pointer;
+}
+
+.gwt-button-delete {
+	height: 35px;
+	width: 35px;
+	background: url(images/editdelete.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-delete-small {
+	height: 16px;
+	width: 16px;
+	background: url(images/editdelete-small.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-view-deleted-analyzers {
+	height: 32px;
+	width: 100px;
+	background: url(images/view_deleted_analyzers.jpg) no-repeat;
+	margin-left:5px;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-login {
+	height: 32px;
+	width: 100px;
+	background: url(images/login.jpg) no-repeat;
+	text-align: center;
+	border: 0px;
+    cursor: pointer;
+}
+
+.gwt-button-list_iouser {
+	height: 35px;
+	width: 35px;
+	background: url(images/list_io_user.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-history {
+	height: 25px;
+	width: 25px;
+	background: url(images/history.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-csv-small {
+	height: 22px;
+	width: 22px;
+	background: url(images/csv_small.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-chart-small {
+	height: 22px;
+	width: 22px;
+	background: url(images/chart_small.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-table-small {
+	height: 22px;
+	width: 22px;
+	background: url(images/table.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-means {
+	height: 25px;
+	width: 25px;
+	background: url(images/saetta.png) no-repeat;
+	text-align: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.gwt-button-hour{
+	height: 18px;
+	width: 40px;
+	background: url(images/hour.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-hour-selected{
+	height: 18px;
+	width: 40px;
+	background: url(images/selected_hour.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-h1 {
+	margin-bottom: 10px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: bold;
+	color: #333333;
+	font-size: 150%;
+	text-align: center;
+}
+
+.gwt-title-widget {
+	margin-bottom: 10px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: bold;
+	color: #333333;
+	font-size: 140%;
+	text-align: left;
+	margin-left: 20px;
+}
+
+.gwt-label-login {
+	height: 30px;
+	margin: 0;
+	padding: 0px 0 0 0px;
+	background: url(images/img10_1.jpg) no-repeat;
+	letter-spacing: -1px;
+	color: #327EBE;
+	font-size: 130%;
+}
+
+.gwt-login-boxed {
+	padding: 30px;
+	border: 1px solid #0AAAFD;
+}
+
+/* Page */
+
+.gwt-page {
+	width: 1000px;
+	margin: 0px auto;
+	padding: 0px 0 0px 0;
+	text-align: center;
+}
+
+.gwt-page-for-map {
+	width: 100%;
+	margin: 0px auto;
+	padding: 5px 0 0px 0;
+	text-align: center;
+}
+
+.post {
+	margin-bottom: 20px;
+}
+
+.post .title {
+	padding: 0 20px;
+}
+
+.post .story {
+	padding: 0 20px;
+}
+
+.post .meta {
+	padding: 5px 20px;
+	background: url(images/img09.gif) repeat-x;
+}
+
+.post .meta p {
+	margin: 0;
+	font-size: 77%;
+}
+
+.boxed .title {
+	height: 32px;
+	margin: 0;
+	padding: 8px 0 0 20px;
+	background: url(images/img08.jpg) no-repeat;
+	letter-spacing: -1px;
+	color: #FF3300;
+}
+
+.boxed .story {
+	padding: 20px;
+	border: 1px solid #FF8D17;
+}
+
+.boxed .meta {
+	padding: 5px 10px;
+	background: #FF8D17;
+	color: #FFFFFF;
+}
+
+.boxed .meta a {
+	color: #FFFFFF;
+}
+
+/* Sidebar */
+
+#login {
+	width: 1000px;
+	margin: 0px auto;
+	padding: 15px 0 0 0;
+}
+
+.gwt-table-header {
+  background: #09a3fd;
+  border-color: #ffffff;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.gwt-table-data {
+  border-color: #aaaaaa;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+}
+
+.gwt-station {
+	border: 2px solid #0AAAFD;
+	/*background: #FFF3EA;*/
+	background: url(images/pattern4.png) repeat;
+	/*width: 117px;*/
+}
+
+.gwt-MenuBar {
+  cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+  cursor: default;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background: #E0EDFE;
+}
+
+.gwt-MenuBar-horizontal {
+  background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
+  border: 1px solid #BBBBBB;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+  padding: 0px 10px;
+  vertical-align: bottom;
+  color: #666666;
+  font-weight: bold;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+  width: 1px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-left: 1px solid #888888;
+  background: white;
+}
+
+.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
+  width: 1px;
+  height: 1px;
+  background: white;
+}
+
+.gwt-MenuBar-horizontal .subMenuIcon {
+  padding-right: 4px;
+}
+
+.gwt-MenuBar-horizontal .subMenuIcon-selected {
+  background: #E0EDFE;
+}
+
+.gwt-MenuBar-vertical {
+  margin-top: 0px;
+  margin-left: 0px;
+  background: white;
+}
+
+.gwt-MenuBar-vertical table {
+  border-collapse: collapse;
+  /* This is what sets background color of vertical menu*/
+  background: white;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItem {
+  padding: 4px 10px 4px 1px;
+  /* This is what forces text on a single line*/
+  white-space: nowrap;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background: #E0EDFE;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
+  padding: 2px 0px;
+}
+
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .content {
+  height: 1px;
+  padding: 0px;
+  border: 0px;
+  border-top: 1px solid #777777;
+  background: #ddddee;
+  overflow: hidden;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon {
+  padding-right: 4px;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+  background: #E0EDFE;
+}
+
+.gwt-MenuBarPopup {
+  margin: 0px 0px 0px 3px;
+}
+
+.gwt-MenuBarPopup .menuPopupTopCenter {
+  background: url(images/hborder.png) 0px -12px repeat-x;
+}
+
+.gwt-MenuBarPopup .menuPopupMiddleLeft {
+  background: url(images/vborder.png) -12px 0px repeat-y;
+}
+
+.gwt-MenuBarPopup .menuPopupTopLeftInner {
+  width: 5px;
+  height: 5px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupTopRightInner {
+  width: 8px;
+  height: 5px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomLeftInner {
+  width: 5px;
+  height: 8px;
+  zoom: 1;
+}
+
+.gwt-MenuBarPopup .menuPopupBottomRightInner {
+  width: 8px;
+  height: 8px;
+  zoom: 1;
+}
+
+.gwt-cop-title{
+	height: 30px;
+	margin: 0;
+	padding: 10px 0 0 20px;
+	letter-spacing: -1px;
+	color: #FF8D17;
+	font-size: 130%;
+}
+
+.gwt-cop-title-blue{
+	height: 30px;
+	margin: 0;
+	padding: 10px 0 0 20px;
+	letter-spacing: -1px;
+	color: #327EBE;
+	font-size: 130%;
+}
+
+.gwt-Grid {
+	border: 1px solid #FF8D17;
+	text-align: center;
+}
+
+.gwt-temp-low {
+	/*color: blue;*/
+	color: #0000ff;
+}
+
+.gwt-temp-alarm {
+	/*color: red;*/
+	color: #ff0000;
+}
+
+.gwt-temp-warning {
+	
+	/*color: #c9a30a;*/
+	color: #f07800;
+	
+}
+
+.gwt-temp-normal {
+	color: #7F7772;
+	/*grigio*/
+}
+
+.gwt-temp-normal-green {
+	/*color: green;*/
+	color: #00a400;
+}
+
+.gwt-button-informatic_status {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/informatic_status2.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-informatic_status-disabled {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/informatic_status2-gray.png) no-repeat;
+	border: 0px;
+}
+
+.gwt-button-station_status {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/station_status.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-station_status-disabled {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/station_status-gray.png) no-repeat;
+	border: 0px;
+}
+
+.gwt-button-station_status_orange {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/station_status_orange.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-analyzers_status {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/analyzer_status.png) no-repeat;
+	border: 0px;
+  	cursor: pointer;
+}
+
+.gwt-button-analyzers_status-disabled {
+	height: 32px;
+	width: 100px;
+	text-align: center;
+	background: url(images/analyzer_status-gray.png) no-repeat;
+	border: 0px;
+}
+
+.gwt-Grid-blue {
+	border: 1px solid #0AAAFD;
+}
+
+.gwt-informatic-title {
+	height: 15px;
+	margin: 0;
+	padding: 0px 0 0 0px;
+	letter-spacing: -1px;
+	color: #327EBE;
+	font-size: 130%;
+}
+
+.gwt-pointer {
+  	cursor: pointer;
+}

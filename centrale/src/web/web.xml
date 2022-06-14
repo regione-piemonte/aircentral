@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+   version="2.5">
+   
+	<context-param>
+	    <param-name>org.mortbay.jetty.servlet.SessionCookie</param-name>
+	    <param-value>CENTRALESESSIONID</param-value>
+  	</context-param>
+	<context-param>
+	    <param-name>org.mortbay.jetty.servlet.SessionURL</param-name>
+	    <param-value>centralesessionid</param-value>
+	</context-param>
+
+  <servlet>
+    <servlet-name>default</servlet-name>
+    <servlet-class>org.mortbay.jetty.servlet.DefaultServlet</servlet-class>
+    <init-param>
+      <param-name>gzip</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>centraleUI</servlet-name>
+    <servlet-class>it.csi.centrale.ui.server.CentraleUIServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>centraleUI</servlet-name>
+    <url-pattern>/uiservice</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>connperif</servlet-name>
+    <servlet-class>it.csi.centrale.connperif.server.ConnPerifServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>connperif</servlet-name>
+    <url-pattern>/connperif</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>mapsService</servlet-name>
+    <servlet-class>it.csi.centrale.ui.server.MapsService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mapsService</servlet-name>
+    <url-pattern>/mapsService</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>displayChart</servlet-name>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>displayChart</servlet-name>
+    <url-pattern>/displayChart</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>exportService</servlet-name>
+    <servlet-class>it.csi.centrale.servlet.ExportService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>exportService</servlet-name>
+    <url-pattern>/exportService</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>PerifService</servlet-name>
+    <servlet-class>it.csi.centrale.servlet.PerifService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PerifService</servlet-name>
+    <url-pattern>/perifservice</url-pattern>
+  </servlet-mapping>
+  
+  <session-config>
+  	<session-timeout>1</session-timeout>
+  </session-config>
+</web-app>

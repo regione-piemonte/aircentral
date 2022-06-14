@@ -1,0 +1,44 @@
+body {
+	background: #FFFFFF url(../images/img01.2.jpg) repeat-x;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #7F7772;
+}
+
+.view-box {
+	margin-bottom: 20px;
+	padding: 5px;
+	border: 1px solid #0AAAFD;
+	/*background: #FFF3EA;*/
+	background: url(../images/pattern4.png) repeat;
+	width: 100%;
+}
+
+.title {
+	height: 30px;
+	margin: 0;
+	padding: 0px 0 0 20px;
+	background: url(../images/img10_2.jpg) no-repeat;
+	letter-spacing: -1px;
+	color: #327EBE;
+	font-size: 130%;
+}
+
+.header {
+  background: #09a3fd;
+  border-color: #ffffff;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.data {
+  border-color: #aaaaaa;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+}
+
+table {
+	border: 1px solid #0AAAFD;
+}

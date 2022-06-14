@@ -1,0 +1,31 @@
+<dbconfig>
+	<database>
+		<description>Database Centrale</description> 
+		<dbName>dbcentrale</dbName>
+		<address>127.0.0.1</address>
+		<port>5432</port>
+		<user>changeme</user>
+		<password>mypass</password>
+		<engine>postgres</engine>
+	</database>
+	<database>
+		<description>Database Aria</description> 
+		<dbName>PGTST03</dbName>
+		<address>127.0.0.1</address>
+		<port>5432</port>
+		<user>changeme</user>
+		<password>mypass</password>
+		<engine>postgres</engine>
+		<dbtype>0</dbtype>
+	</database>
+	<database>
+		<description>Database Autenticazione</description> 
+		<dbName>dbauth2</dbName>
+		<address>127.0.0.1</address>
+		<port>5432</port>
+		<user>changeme</user>
+		<password>mypass</password>
+		<engine>postgres</engine>
+		<dbtype>0</dbtype>
+	</database>
+</dbconfig>

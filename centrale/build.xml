@@ -1,0 +1,602 @@
+<!-- Title:  Build and release procedures for Centrale project -->
+<!-- Author: pierfrancesco.vallosio@consulenti.csi.it -->
+<!-- Date:   09-January-2008 -->
+<!-- $Id: build.xml,v 1.43 2015/11/02 16:37:14 pfvallosio Exp $ -->
+
+<project name="centrale" basedir="." default="default">
+
+	<property file="buildfiles/build.properties" />
+	<property environment="env" />
+
+	<!-- ############################################################# -->
+	<!-- # public target: default                                    # -->
+	<!-- ############################################################# -->
+	<target name="default" description="Verifica se eseguire il build per un solo environment specificato a linea di commando con -Dtarget=${target} o per tutti gli environment ">
+		<condition property="first-call" value="distribution">
+			<not>
+				<equals arg1="${target}" arg2="$${target}" />
+			</not>
+		</condition>
+		<condition property="first-call" value="all-target">
+			<equals arg1="${target}" arg2="$${target}" />
+		</condition>
+		<echo message="target: ${target}" />
+		<echo message="first-call: ${first-call}" />
+		<antcall target="${first-call}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: all-target                                 # -->
+	<!-- ############################################################# -->
+	<target name="all-target" description="Lancia il build per le varie distribuzioni in sequenza">
+		<antcall target="distribution">
+			<param name="target" value="dev" />
+		</antcall>
+		<antcall target="distribution">
+			<param name="target" value="tst" />
+		</antcall>
+		<antcall target="distribution">
+			<param name="target" value="coll" />
+		</antcall>
+		<antcall target="distribution">
+			<param name="target" value="prod" />
+		</antcall>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: init                                       # -->
+	<!-- ############################################################# -->
+	<target name="init" description="Inizializza lo script Ant">
+		<tstamp>
+			<format property="ANNO-COPYRIGHT" pattern="yyyy" />
+			<format property="current.date" pattern="dd/MM/yyyy HH:mm:ss" locale="it" />
+		</tstamp>
+		<echo message="current.date: ${current.date}" />
+		<condition property="target" value="dev">
+			<equals arg1="${target}" arg2="$${target}" />
+		</condition>
+		<echo message="target: ${target}" />
+		<loadproperties srcFile="${buildfiles}/${target}.properties" />
+		<property name="temp-target" value="${temp}/${target}" />
+		<property name="classes-target" value="${classes}/${target}" />
+		<property name="archives-target" value="${archives}/${target}" />
+		<property name="dist-target" value="${dist}/${target}" />
+		<mkdir dir="${temp-target}" />
+		<mkdir dir="${classes-target}" />
+		<mkdir dir="${archives-target}" />
+		<mkdir dir="${dist-target}" />
+		<condition property="install-target" value="${default_install_target}">
+			<equals arg1="${env.CENTRALE_INSTALL_TARGET}" arg2="$${env.CENTRALE_INSTALL_TARGET}" />
+		</condition>
+		<condition property="install-target" value="${env.CENTRALE_INSTALL_TARGET}">
+			<not>
+				<equals arg1="${env.CENTRALE_INSTALL_TARGET}" arg2="$${env.CENTRALE_INSTALL_TARGET}" />
+			</not>
+		</condition>
+		<echo message="install target: ${install-target}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: compile-all                                # -->
+	<!-- ############################################################# -->
+	<target name="compile-all" depends="compile-core, compile-ui-frontend, compile-ui-backend" description="Compila tutti i sorgenti">
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: create-jar-manifest                      # -->
+	<!-- ############################################################# -->
+	<target name="create-jar-manifest" description="Crea il manifest per un jar">
+		<manifest file="${temp-target}/${module-name}.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Implementation-Vendor" value="${company-name}" />
+			<attribute name="Implementation-Title" value="${product-name}.${component-name}.${module-name}" />
+			<attribute name="Implementation-Version" value="${module-version}" />
+			<section name="${company-name}">
+				<attribute name="Nome-Prodotto" value="${product-name}" />
+				<attribute name="Nome-Componente" value="${component-name}" />
+				<attribute name="Versione" value="${product-version}" />
+				<attribute name="Modulo" value="${module-name}" />
+				<attribute name="Versione-Modulo" value="${module-version}" />
+				<attribute name="Ambiente" value="${nome.ambiente}" />
+			</section>
+		</manifest>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: package-war                                # -->
+	<!-- ############################################################# -->
+	<target name="package-war" depends="war-ui" description="Costruisce il war della web app">
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: package-all                                # -->
+	<!-- ############################################################# -->
+	<target name="package-all" depends="jar-core, package-war" description="Esegue il packaging di ogni componente del prodotto">
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: distribution                               # -->
+	<!-- ############################################################# -->
+	<target name="distribution" depends="release" description="Costruisce il tar per la distribuzione">
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: clean-dist                                 # -->
+	<!-- ############################################################# -->
+	<target name="clean-dist" description="Rimuove la cartella delle distribuzioni">
+		<delete dir="${dist}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: clean-classes                              # -->
+	<!-- ############################################################# -->
+	<target name="clean-classes" description="Rimuove la cartella dei sorgenti compilati">
+		<delete dir="${classes}" />
+		<delete dir="${build}/www" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: clean-archives                             # -->
+	<!-- ############################################################# -->
+	<target name="clean-archives" description="Rimuove la cartella degli archivi (war, ear, ...)">
+		<delete dir="${archives}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: clean-temp                                 # -->
+	<!-- ############################################################# -->
+	<target name="clean-temp" description="Rimuove la cartella dei files temporanei di build">
+		<delete dir="${temp}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: clean                                    # -->
+	<!-- ############################################################# -->
+	<target name="clean" depends="clean-dist, clean-classes, clean-archives, clean-temp" description="Rimuove tutte le cartelle create da Ant tranne quelle delle librerie">
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: clean-all                                  # -->
+	<!-- ############################################################# -->
+	<target name="clean-all" depends="clean" description="Rimuove tutte le cartelle create da Ant" />
+
+	<!-- ############################################################# -->
+	<!-- # public target: show-vars                                  # -->
+	<!-- ############################################################# -->
+	<target name="show-vars" depends="init" description="Visualizza tutte le variabili impostate nei file di properties e/o da linea di comando">
+		<echo message="*****************************************" />
+		<echo message="********  ${product-name} environment  *******" />
+		<echo message="*****************************************" />
+		<echo message="Runtime:" />
+		<echo message="JAVA_HOME = ${env.JAVA_HOME}" />
+		<echo message="ANT_HOME = ${env.ANT_HOME}" />
+		<echo message="JAVA_VERSION = ${java.version}" />
+		<echo message="ANT_VERSION = ${ant.version}" />
+		<echo message="" />
+		<echo message="Target:" />
+		<echo message="TARGET = ${target}" />
+		<echo message="" />
+		<echo message="Application:" />
+		<echo message="VERSION = ${product-version}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: about                                      # -->
+	<!-- ############################################################# -->
+	<target name="about" description="Visualizza l'elenco dei target pubblici dello script">
+		<loadfile property="about" srcFile="buildfiles/about.txt" />
+		<echo message="${about}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # public target: about-custom                               # -->
+	<!-- ############################################################# -->
+	<target name="about-custom" description="Visualizza l'elenco dei target privati dello script">
+		<loadfile property="about-custom" srcfile="buildfiles/about-custom.txt" />
+		<echo message="${about-custom}" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: compile-core                             # -->
+	<!-- ############################################################# -->
+	<target name="compile-core" depends="init" description="Compila il backend dell'applicazione">
+		<mkdir dir="${classes-target}/core" />
+		<pathconvert property="files-to-compile" pathsep=",">
+			<union>
+				<fileset dir="${src-java}">
+					<include name="**/*.java" />
+					<exclude name="it/csi/centrale/connperif/**" />
+					<exclude name="it/csi/centrale/ui/**" />
+				</fileset>
+				<fileset dir="${src-java}">
+					<include name="it/csi/centrale/ui/server/ValidationFlag.java" />
+					<include name="it/csi/centrale/ui/client/CentraleUIConstants.java" />
+					<include name="it/csi/centrale/ui/client/*Exception.java" />
+					<include name="it/csi/centrale/ui/client/data/**/*.java" />
+				</fileset>
+			</union>
+			<map from="${src-java}/" to="" />
+		</pathconvert>
+		<javac srcdir="${src-java}" destdir="${classes-target}/core" sourcepath="" includes="${files-to-compile}" includeantruntime="false" debug="${flag-debug}">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: jar-core                                 # -->
+	<!-- ############################################################# -->
+	<target name="jar-core" depends="compile-core" description="Genera l'archivio del backend dell'applicazione">
+		<antcall target="create-jar-manifest">
+			<param name="module-name" value="CORE" />
+			<param name="module-version" value="${product-version}" />
+		</antcall>
+		<jar destfile="${archives-target}/centrale.jar" manifest="${temp-target}/CORE.MF">
+			<fileset dir="${classes-target}/core" />
+			<fileset file="${cfg}/log4j.properties" />
+			<fileset file="${cfg}/castor.properties" />
+			<fileset file="${src}/xml/dbconfig_mapping.xml" />
+			<fileset file="${src}/xml/login_mapping.xml" />
+			<fileset file="${src}/xml/station_mapping.xml" />
+			<fileset dir="${src-java}">
+				<include name="**/MessageBundleCore*.properties" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: compile-ui-backend                       # -->
+	<!-- ############################################################# -->
+	<target name="compile-ui-backend" depends="init, jar-core" description="Compila il backend dell'interfaccia utente">
+		<mkdir dir="${classes-target}/ui/server" />
+		<javac srcdir="${src-java}" destdir="${classes-target}/ui/server" sourcepath="" includeantruntime="false" debug="${flag-debug}">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset file="${archives-target}/centrale.jar" />
+			</classpath>
+			<include name="it/csi/centrale/ui/server/**" />
+			<include name="it/csi/centrale/ui/client/CentraleUIService.java" />
+		</javac>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: compile-connperif-backend                # -->
+	<!-- ############################################################# -->
+	<target name="compile-connperif-backend" depends="init, jar-core" description="Compila il backend dell'interfaccia di collegamento al Periferico">
+		<mkdir dir="${classes-target}/connperif/server" />
+		<javac srcdir="${src-java}" destdir="${classes-target}/connperif/server" sourcepath="" includeantruntime="false" debug="${flag-debug}">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset file="${archives-target}/centrale.jar" />
+			</classpath>
+			<include name="it/csi/centrale/connperif/server/**" />
+			<include name="it/csi/centrale/connperif/client/ConnPerifService.java" />
+			<include name="it/csi/centrale/connperif/client/*Exception.java" />
+		</javac>
+	</target>
+
+
+
+	<!-- ############################################################# -->
+	<!-- # internal target: check-compile-ui-frontend                # -->
+	<!-- ############################################################# -->
+	<target name="check-compile-ui-frontend" description="Verifica se il lato client dell'interfaccia utente deve essere compilato">
+		<uptodate property="compile-ui-frontend.notRequired" targetfile="${build}/www/${target}/ui/uiFrontendBuild.done">
+			<srcfiles dir="${src-java}/it/csi/centrale/ui/client" includes="**/*" />
+			<srcfiles dir="${src-web}" includes="**/*" />
+		</uptodate>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: check-compile-connperif-frontend         # -->
+	<!-- ############################################################# -->
+	<target name="check-compile-connperif-frontend" description="Verifica se il lato client dell'interfaccia di connessione al Periferico deve essere compilato">
+		<uptodate property="compile-connperif-frontend.notRequired" targetfile="${build}/www/${target}/connperif/connperifFrontendBuild.done">
+			<srcfiles dir="${src-java}/it/csi/centrale/connperif/client" includes="**/*" />
+			<srcfiles dir="${src-web}" includes="**/*" />
+		</uptodate>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: compile-ui-frontend                      # -->
+	<!-- ############################################################# -->
+	<target name="compile-ui-frontend" depends="init, compile-ui-backend, check-compile-ui-frontend" unless="compile-ui-frontend.notRequired" description="Compila il lato client dell'interfaccia utente">
+		<mkdir dir="${build}/www/${target}/ui/client" />
+		<java classname="com.google.gwt.dev.Compiler" fork="true" failonerror="true">
+			<classpath>
+				<pathelement path="${src-web}:${src-java}:${classes-target}/ui/server" />
+				<fileset dir="${gwt-lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Xmx256m" />
+			<!-- <arg value="-style" />
+			<arg value="DETAILED" /> -->
+			<arg value="-war" />
+			<arg value="${build}/www/${target}/ui/client" />
+			<arg value="-localWorkers" />
+			<arg value="4" />
+			<arg value="it.csi.centrale.ui.CentraleUI" />
+		</java>
+		<delete dir="${build}/www/${target}/ui/client/html_gz" />
+		<mkdir dir="${build}/www/${target}/ui/client/html_gz" />
+		<copy todir="${build}/www/${target}/ui/client/html_gz">
+			<fileset dir="${build}/www/${target}/ui/client/it.csi.centrale.ui.CentraleUI" includes="*.cache.html,*.cache.js" />
+		</copy>
+		<exec dir="${build}/www/${target}/ui/client/html_gz" executable="sh" os="Linux">
+			<arg line="-c 'gzip -9 *.cache.*'" />
+		</exec>
+		<touch file="${build}/www/${target}/ui/uiFrontendBuild.done" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: compile-connperif-frontend               # -->
+	<!-- ############################################################# -->
+	<target name="compile-connperif-frontend" depends="init, compile-connperif-backend, check-compile-connperif-frontend" unless="compile-connperif-frontend.notRequired" description="Compila il lato client dell'interfaccia di collegamento al Periferico">
+		<mkdir dir="${build}/www/${target}/connperif/client" />
+		<java classname="com.google.gwt.dev.Compiler" fork="true" failonerror="true">
+			<classpath>
+				<pathelement path="${src-web}:${src-java}:${classes-target}/connperif/server" />
+				<fileset dir="${gwt-lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Xmx256m" />
+			<arg value="-war" />
+			<arg value="${build}/www/${target}/connperif/client" />
+			<arg value="-localWorkers" />
+			<arg value="4" />
+			<arg value="it.csi.centrale.connperif.ConnPerif" />
+		</java>
+		<touch file="${build}/www/${target}/connperif/connperifFrontendBuild.done" />
+	</target>
+
+
+	<!-- ############################################################# -->
+	<!-- # internal target: war-ui                                   # -->
+	<!-- ############################################################# -->
+	<target name="war-ui" depends="compile-ui-backend, compile-ui-frontend, compile-connperif-backend, compile-connperif-frontend" description="Genera l'archivio dell'interfaccia utente">
+		<antcall target="create-jar-manifest">
+			<param name="module-name" value="UI" />
+			<param name="module-version" value="${product-version}" />
+		</antcall>
+		<war destfile="${archives-target}/centraleUI.war" webxml="${src-web}/web.xml" manifest="${temp-target}/UI.MF">
+			<classes dir="${classes-target}/ui/server" />
+			<classes dir="${classes-target}/connperif/server" />
+			<classes dir="${src-java}">
+				<include name="it/csi/centrale/ui/server/MessageBundleService*.properties" />
+			</classes>
+			<fileset dir="${build}/www/${target}/ui/client/it.csi.centrale.ui.CentraleUI/">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${build}/www/${target}/ui/client/html_gz">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${build}/www/${target}/connperif/client/it.csi.centrale.connperif.ConnPerif/">
+				<include name="**/*" />
+			</fileset>
+		</war>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: run-gwt                                  # -->
+	<!-- ############################################################# -->
+	<target name="run-gwt" description="Esegue l'applicazione nella shell GWT sulla porta 8888">
+		<antcall target="run-gwt-impl">
+			<param name="port" value="8888" />
+		</antcall>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: run-gwt2                                 # -->
+	<!-- ############################################################# -->
+	<target name="run-gwt2" description="Esegue l'applicazione nella shell GWT sulla porta 8889">
+		<antcall target="run-gwt-impl">
+			<param name="port" value="8889" />
+		</antcall>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: run-gwt-impl                             # -->
+	<!-- ############################################################# -->
+	<target name="run-gwt-impl" depends="compile-ui-backend" description="Esegue l'applicazione nella shell GWT">
+		<mkdir dir="${temp-target}/rungwt/config" />
+		<copy todir="${temp-target}/rungwt/config">
+			<fileset dir="${cfg}">
+				<exclude name="linux" />
+			</fileset>
+		</copy>
+		<move file="${temp-target}/rungwt/config/db_config-run-gwt.xml" tofile="${temp-target}/rungwt/config/db_config.xml" />
+		<mkdir dir="${temp-target}/rungwt/war" />
+		<java classname="com.google.gwt.dev.DevMode" fork="true" dir="${temp-target}/rungwt" failonerror="true">
+			<classpath>
+				<pathelement path="${src-web}:${src-java}:${classes-target}/ui/server" />
+				<fileset dir="${archives-target}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${gwt-lib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<jvmarg value="-Djava.library.path=${lib}/" />
+			<jvmarg value="-Xmx512M" />
+			<arg value="-port" />
+			<arg value="${port}" />
+			<arg value="-war" />
+			<arg value="${temp-target}/rungwt/war" />
+			<arg value="-startupUrl" />
+			<arg value="/it.csi.centrale.ui.CentraleUI/CentraleUI.html" />
+			<arg value="it.csi.centrale.ui.CentraleUI" />
+		</java>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: copy-bin                                 # -->
+	<!-- ############################################################# -->
+	<target name="copy-bin" description="Copia la distribuzione eseguibile in una data cartella">
+		<mkdir dir="${bin-dir}/bin" />
+		<copy todir="${bin-dir}/bin">
+			<fileset dir="${archives-target}" />
+			<fileset dir="${scripts}" excludes="run*.sh usertasks/**" />
+			<fileset dir="${lib}" />
+		</copy>
+		<copy file="${scripts}/run.sh" todir="${bin-dir}" />
+		<chmod file="${bin-dir}/run.sh" perm="+x" />
+		<chmod perm="+x">
+			<fileset dir="${bin-dir}/bin">
+				<include name="*.sh" />
+				<include name="centrale" />
+				<include name="centrale_rh" />
+				<include name="*PPP" />
+			</fileset>
+		</chmod>
+		<mkdir dir="${bin-dir}/usertasks" />
+		<copy todir="${bin-dir}/usertasks">
+			<fileset dir="${scripts}/usertasks">
+			</fileset>
+		</copy>
+		<chmod perm="+x">
+			<fileset dir="${bin-dir}/usertasks">
+				<include name="**/*.sh" />
+			</fileset>
+		</chmod>
+		<mkdir dir="${bin-dir}/config" />
+		<copy todir="${bin-dir}/config">
+			<fileset dir="${cfg}">
+				<exclude name="castor.properties" />
+				<exclude name="log4j.properties" />
+				<exclude name="*-run-gwt.xml" />
+				<exclude name="*.xcf" />
+			</fileset>
+		</copy>
+		<copy todir="${bin-dir}">
+			<fileset dir="./">
+				<include name="AUTHORS.txt" />
+				<include name="BOM.csv" />
+				<include name="changelog.txt" />
+				<include name="CodeOfConduct.md" />
+				<include name="CONTRIBUTORS.txt" />
+				<include name="Copyrights.txt" />
+				<include name="License.txt" />
+				<include name="Maintainers.txt" />
+				<include name="README.md" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: run                                      # -->
+	<!-- ############################################################# -->
+	<target name="run" depends="jar-core, war-ui" description="Esegue l'applicazione">
+		<antcall target="copy-bin">
+			<param name="bin-dir" value="${temp-target}/run" />
+		</antcall>
+		<exec dir="${temp-target}/run" executable="./run.sh" />
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: dist                                     # -->
+	<!-- ############################################################# -->
+	<target name="dist" depends="jar-core, war-ui" description="Prepara il contenuto degli archivi per la release">
+		<antcall target="copy-bin">
+			<param name="bin-dir" value="${dist-target}/bin/centrale" />
+		</antcall>
+		<copy todir="${dist-target}/src/centrale">
+			<fileset dir="${basedir}">
+				<include name="src/**" />
+				<include name="lib/**" />
+				<include name="docs/**" />
+				<include name="conf/**" />
+				<include name="buildfiles/**" />
+				<include name="build.xml" />
+				<include name="AUTHORS.txt" />
+				<include name="BOM.csv" />
+				<include name="changelog.txt" />
+				<include name="CodeOfConduct.md" />
+				<include name="CONTRIBUTORS.txt" />
+				<include name="Copyrights.txt" />
+				<include name="License.txt" />
+				<include name="Maintainers.txt" />
+				<include name="README.md" />
+			</fileset>
+		</copy>
+		<copy todir="${dist-target}/src/centrale/lib">
+			<fileset dir="${gwt-lib}" />
+		</copy>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: release                                  # -->
+	<!-- ############################################################# -->
+	<target name="release" depends="dist" description="Genera gli archivi per la release">
+		<tar destfile="${dist-target}/centrale_bin_V${product-version}_${DSTAMP}.tgz" compression="gzip">
+			<tarfileset dir="${dist-target}/bin">
+				<include name="**" />
+				<exclude name="centrale/run*" />
+				<exclude name="centrale/bin/*.sh" />
+				<exclude name="centrale/bin/centrale" />
+				<exclude name="centrale/bin/centrale_rh" />
+				<exclude name="centrale/bin/*PPP" />
+				<exclude name="centrale/config/**" />
+				<exclude name="centrale/usertasks/**" />
+			</tarfileset>
+			<tarfileset dir="${dist-target}/bin" mode="755">
+				<include name="centrale/run*" />
+				<include name="centrale/bin/*.sh" />
+				<include name="centrale/bin/centrale" />
+				<include name="centrale/bin/centrale_rh" />
+				<include name="centrale/bin/*PPP" />
+				<include name="centrale/usertasks/**" />
+			</tarfileset>
+		</tar>
+		<tar destfile="${dist-target}/centrale_cfg_V${product-version}_${DSTAMP}.tgz" compression="gzip">
+			<tarfileset dir="${dist-target}/bin">
+				<include name="centrale/config/**" />
+			</tarfileset>
+		</tar>
+		<tar destfile="${dist-target}/centrale_src_V${product-version}_${DSTAMP}.tgz" compression="gzip">
+			<tarfileset dir="${dist-target}/src">
+				<include name="**" />
+				<exclude name="centrale/src/scripts/**" />
+			</tarfileset>
+			<tarfileset dir="${dist-target}/src" mode="755">
+				<include name="centrale/src/scripts/**" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: install                                  # -->
+	<!-- ############################################################# -->
+	<target name="install" depends="jar-core, war-ui" description="Installa l'applicazione su un PC remoto">
+		<antcall target="copy-bin">
+			<param name="bin-dir" value="${temp-target}/install" />
+		</antcall>
+		<exec dir="${temp-target}/install" executable="scp" os="Linux">
+			<arg line="-r . ${install-target}/centrale" />
+		</exec>
+	</target>
+
+	<!-- ############################################################# -->
+	<!-- # internal target: install-light                            # -->
+	<!-- ############################################################# -->
+	<target name="install-light" depends="jar-core, war-ui" description="Aggiorna l'applicazione su un PC remoto">
+		<antcall target="copy-bin">
+			<param name="bin-dir" value="${temp-target}/install" />
+		</antcall>
+		<exec dir="${temp-target}/install/bin" executable="scp" os="Linux">
+			<arg line="centrale.jar centraleUI.war ${install-target}/centrale/bin/" />
+		</exec>
+	</target>
+
+</project>

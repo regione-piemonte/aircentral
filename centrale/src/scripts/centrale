@@ -1,0 +1,186 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:             centrale
+# Required-Start:       $network
+# Required-Stop:
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Centrale application
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+# /etc/init.d/centrale: start and stop the Centrale application
+
+# Environment variables
+# CENTRALE_COMMAND: this is the command that starts Centrale application
+CENTRALE_COMMAND=/home/copadmin/centrale/run.sh
+# CENTRALE_OPTIONS: options to be passed to Centrale command
+CENTRALE_OPTIONS=""
+# CENTRALE_STARTLOG: Centrale application startup log file
+CENTRALE_STARTLOG=/home/copadmin/centrale/log/startup.log
+# CENTRALE_STARTED_MSG: message in the startup log file that states that Centrale is started
+CENTRALE_STARTED_MSG="Centrale startup completed"
+# CENTRALE_USER: this is the user that executes Centrale application
+CENTRALE_USER=copadmin
+# CENTRALE_PIDFILE: this is the PID file for Centrale application
+CENTRALE_PIDFILE=/var/run/centrale.pid
+
+# Messages
+MSG_CMD_ERROR="Usage: /etc/init.d/centrale {start|stop|restart|status}"
+MSG_NO_COMMAND="Startup script not found: $CENTRALE_COMMAND"
+MSG_PERM_ERROR="Only root can start/stop centrale application"
+MSG_STARTING="Starting centrale application"
+MSG_STOPPING="Stopping centrale application"
+MSG_STATUS_ON="Centrale application is running"
+MSG_STATUS_OFF="Centrale application is not running"
+
+# Functions
+
+start()
+{
+  if [ `id -u` -ne 0 ]; then
+    log_failure_msg $MSG_PERM_ERROR
+    exit 1
+  fi
+  check_running
+  running=$?
+  if [ $running -eq 0 ]; then
+    log_failure_msg $MSG_STATUS_ON [PID=`cat $CENTRALE_PIDFILE`]
+    exit 1
+  fi
+  log_daemon_msg $MSG_STARTING
+  rm -f $CENTRALE_STARTLOG
+  log_progress_msg "centrale"
+  if start-stop-daemon --start --quiet --make-pidfile --pidfile $CENTRALE_PIDFILE --name java --background --startas $CENTRALE_COMMAND --chuid $CENTRALE_USER -- $CENTRALE_OPTIONS; then
+    PROC_PID=`cat $CENTRALE_PIDFILE`
+    tail --pid=$PROC_PID --retry --follow=name $CENTRALE_STARTLOG 2>/dev/null &
+    wait_for_startup
+    check_running
+    running=$?
+    if [ $running -eq 0 ]; then
+      log_end_msg 0
+    else
+      log_end_msg 1
+      exit 1
+    fi
+  else
+    log_end_msg 1
+    exit 1
+  fi
+
+}
+
+stop()
+{
+  if [ `id -u` -ne 0 ]; then
+    log_failure_msg $MSG_PERM_ERROR
+    exit 1
+  fi
+  check_running
+  running=$?
+  if [ $running -ne 0 ]; then
+    log_failure_msg $MSG_STATUS_OFF
+    return 1
+  fi
+  log_daemon_msg $MSG_STOPPING
+  # If there is a stale PID file remove it
+  if [ -f $CENTRALE_PIDFILE ] && ! ps h `cat $CENTRALE_PIDFILE` > /dev/null; then
+      rm -f $CENTRALE_PIDFILE
+  fi
+  if start-stop-daemon --stop --quiet --pidfile $CENTRALE_PIDFILE; then
+    tail --pid=`cat $CENTRALE_PIDFILE` -n 0 -f $CENTRALE_STARTLOG 2>/dev/null &
+    wait_for_shutdown
+    log_end_msg 0
+  else
+    log_end_msg 1
+  fi
+}
+
+status()
+{
+  check_running
+  status=$?
+  if [ $status -eq 0 ]; then
+    log_success_msg $MSG_STATUS_ON [PID=`cat $CENTRALE_PIDFILE`]
+  else
+    log_failure_msg $MSG_STATUS_OFF
+  fi
+  exit $status
+}
+
+check_running()
+{
+  pidofproc -p $CENTRALE_PIDFILE $CENTRALE_COMMAND > /dev/null
+}
+
+wait_for_startup()
+{
+  running=0
+  count=60
+  startup_done=1
+  while [ $running -eq 0 -a $count -gt 0 -a $startup_done -ne 0 ]
+  do
+    sleep 1
+    check_running
+    running=$?
+    count=$(( $count - 1 ))
+    grep "$CENTRALE_STARTED_MSG" $CENTRALE_STARTLOG > /dev/null 2>&1
+    startup_done=$?
+  done
+  # this sleep is needed to ensure that tail reads last log lines before this
+  # script terminates
+  sleep 1
+}
+
+wait_for_shutdown()
+{
+  check_running
+  running=$?
+  count=15
+  while [ $running -eq 0 -a $count -gt 0 ]
+  do
+    sleep 1
+    check_running
+    running=$?
+    count=$(( $count - 1 ))
+  done
+  # this sleep is needed to ensure that tail reads last log lines before this
+  # script terminates
+  sleep 1
+}
+
+# Check the number of parameters
+if [ $# -ne 1 ]; then 
+    log_failure_msg $MSG_CMD_ERROR
+    exit 1
+fi
+
+# Check if centrale command exists
+if [ ! -x $CENTRALE_COMMAND ]; then
+    log_failure_msg $MSG_NO_COMMAND
+    exit 1
+fi
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart)
+    stop
+    start
+  ;;
+  status)
+    status
+  ;;
+  *)
+    echo $MSG_CMD_ERROR
+    exit 1
+  ;;
+esac
+
+exit 0

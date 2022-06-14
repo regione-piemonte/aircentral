@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+
+<mapping>
+	<class name="it.csi.centrale.config.DbConfig">
+	
+        <map-to xml="dbconfig"/>
+        
+         <field name="databaseList"
+				type="it.csi.centrale.config.Database"
+				collection="arraylist"
+				direct="false">
+				<bind-xml name="database" node="element"/>
+        </field>
+ 
+	</class>
+	
+	<class name="it.csi.centrale.config.Database">
+        
+        <field name="description"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="description" node="element"/>
+        </field>
+
+		<field name="dbName"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="dbName" node="element"/>
+        </field>
+        
+        <field name="address"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="address" node="element"/>
+        </field>
+        
+        <field name="port"
+				type="java.lang.Integer"
+				direct="false">
+				<bind-xml name="port" node="element"/>
+        </field>
+        
+        <field name="user"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="user" node="element"/>
+        </field>
+        
+         <field name="password"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="password" node="element"/>
+        </field>
+        
+         <field name="engine"
+				type="java.lang.String"
+				direct="false">
+				<bind-xml name="engine" node="element"/>
+        </field>
+        
+         <field name="dbType"
+				type="java.lang.Integer"
+				direct="false">
+				<bind-xml name="dbtype" node="element"/>
+        </field>
+	
+	</class>
+</mapping>
