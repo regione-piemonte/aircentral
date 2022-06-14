@@ -7,8 +7,8 @@ Il Centro Operativo Provinciale è un concentratore di dati provenienti delle st
 Gli utenti dell'applicazione sono i tecnici di ARPA o delle ditte di manutenzione incaricate da ARPA  che si occupano della rete di monitoraggio.
 
 Le componenti di questo prodotto sono:
-* aircentral-centrale: <https://github.com/regione-piemonte/aircentral-centrale>
-* aircentral-dbcentrale: <https://github.com/regione-piemonte/aircentral-dbcentrale>
+* centrale
+* dbcentrale
 
 # Prerequisiti di sistema
 Il software **centrale** funziona appoggiandosi ad un database interno per salvare i dati e le informazioni di stato utili all'applicativo per funzionare, pertanto il centrale non puo' funzionare senza la componente **dbcentrale**.
