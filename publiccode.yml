@@ -4,7 +4,6 @@ applicationSuite: SRRQA - Rilevamento della Qualità dell'Aria
 url: "https://github.com/regione-piemonte/aircentral"
 softwareVersion: "3.3.4"
 releaseDate: "2022-06-14"
-logo: screenshots/logo.png
 
 inputTypes:
   - text/plain
