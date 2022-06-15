@@ -63,23 +63,23 @@ description:
        - configurazione/consultazione stazioni, parametri interni
        - consultazione dati, visualizzazione grafici
     screenshots:
-       - screenshoots/01_login_centrale.png
-       - screenshoots/02_mappa.png
-       - screenshoots/03_grafico.png
-       - screenshoots/03_visualizzazione_dati.png
-       - screenshoots/03_visualizzazione_periodo.png
-       - screenshoots/04_stato_strumentazione_stazione.png
-       - screenshoots/05_stato_stazione.png
-       - screenshoots/06_stato_allarmi_stazione.png
-       - screenshoots/07_configurazione_stazione.png
-       - screenshoots/08_configurazione_comune.png
+       - screenshots/01_login_centrale.png
+       - screenshots/02_mappa.png
+       - screenshots/03_grafico.png
+       - screenshots/03_visualizzazione_dati.png
+       - screenshots/03_visualizzazione_periodo.png
+       - screenshots/04_stato_strumentazione_stazione.png
+       - screenshots/05_stato_stazione.png
+       - screenshots/06_stato_allarmi_stazione.png
+       - screenshots/07_configurazione_stazione.png
+       - screenshots/08_configurazione_comune.png
 
 
 legal:
   license: EUPL-1.2
   mainCopyrightOwner: Regione Piemonte
   repoOwner: Regione Piemonte
-  authorsFile: AUTHORS
+  authorsFile: Copyrights.txt
 
 maintenance:
   type: "internal"
